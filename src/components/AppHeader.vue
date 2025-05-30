@@ -23,7 +23,7 @@
         />
         <circle cx="48.926" cy="12.825" r="12.825" />
       </svg>
-      <h1>Lorem ipsum <span class="break-sm"></span>dolor sit amet</h1>
+      <h1>আমি হৃদয়ের কথা <span class="break-sm"></span>বলিতে ব্যাকুল</h1>
     </router-link>
     <router-link class="user" :to="{ name: 'UserPage' }">
       <svg
