@@ -35,17 +35,17 @@ watch(() => route.fullPath, fetchData);
   <Loader v-if="isBusy" />
   <div v-else class="masonry">
     <div v-for="item in shouts" :key="item.id" class="masonry-item">
-      <div class="card">
-        <div class="head">
+      <div class="card flex flex-col">
+        <div class="head flex">
           <UserSvg width="48" height="48" />
-          <div class="author">
+          <div class="author flex">
             <span>{{ getUserName(item.userId) }}</span>
             <i>
               {{ format(new Date(item.timestamp.seconds * 1000)) }}
             </i>
           </div>
         </div>
-        <div v-html="item.text"></div>
+        <div v-html="item.text" class="body"></div>
       </div>
     </div>
   </div>
@@ -78,17 +78,21 @@ watch(() => route.fullPath, fetchData);
 .card {
   background: rgba(255, 255, 255, 0.04);
   padding: 1rem;
+  gap: 0.5rem;
+  border-radius: var(--app-border-radius);
   .head {
-    display: flex;
     gap: 0.5rem;
+    align-items: center;
     svg {
       width: 2.5rem;
       height: 2.5rem;
       fill: var(--app-text-color);
     }
     .author {
-      display: flex;
       flex-direction: column;
+      span {
+        line-height: 1;
+      }
       i {
         font-size: 0.75rem;
       }

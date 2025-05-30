@@ -14,7 +14,7 @@
 
   --app-bg-color :rgba(0,0,0,0.33);
   --app-text-color :rgba(255,255,255,0.67);
-
+  --app-border-radius: 1rem;
   --app-primary-bg-color: #FFB74D;
   --app-primary-bg-color-hover: #FFA726;
   --app-primary-text-color: #433433;
@@ -42,6 +42,12 @@ button{
   font-size: var(--app-primary-text-size);
 }
 
+.flex{
+  display: flex;
+}
+.flex-col{
+  flex-direction: column;
+}
 .container{
   max-width: var(--app-container-max-width);
   margin: 0 auto;
