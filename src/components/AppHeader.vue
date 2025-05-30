@@ -1,4 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useAuth } from "../composables/useAuth";
+const { currentUser } = useAuth();
+</script>
 <template>
   <header>
     <router-link class="brand" :to="{ name: 'home' }">
@@ -25,7 +28,7 @@
       </svg>
       <h1>আমি হৃদয়ের কথা <span class="break-sm"></span>বলিতে ব্যাকুল</h1>
     </router-link>
-    <router-link class="user" :to="{ name: 'UserPage' }">
+    <router-link v-if="currentUser" class="user" :to="{ name: 'UserPage' }">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="48"
