@@ -60,7 +60,7 @@ watch(() => route.fullPath, fetchData);
 </template>
 <style scoped lang="scss">
 .masonry {
-  column-count: 3;
+  column-count: 2;
   column-gap: 1rem;
 }
 
@@ -72,6 +72,10 @@ watch(() => route.fullPath, fetchData);
 .card {
   background: rgba(255, 255, 255, 0.04);
   padding: 1rem;
+  .head {
+    text-align: right;
+    font-size: 0.75rem;
+  }
 }
 
 .shout-add-btn {
@@ -87,5 +91,15 @@ watch(() => route.fullPath, fetchData);
   align-items: center;
   justify-content: center;
   z-index: 99;
+}
+@media (max-width: 1200px) {
+  .masonry {
+    column-count: 3;
+  }
+}
+@media (max-width: 600px) {
+  .masonry {
+    column-count: 1;
+  }
 }
 </style>

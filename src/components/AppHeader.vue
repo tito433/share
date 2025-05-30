@@ -43,12 +43,11 @@
 header {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   padding: 1rem;
   background-color: var(--app-bg-color);
   gap: 1rem;
   .brand {
-    flex-grow: 1;
     display: flex;
     text-decoration: none;
     color: var(--app-text-color);
