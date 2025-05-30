@@ -37,14 +37,9 @@ const _signOut = async () => {
     </div>
     <p class="desc">
       You’re an anonymous user created by Firebase Authentication. When you
-      first opened the app, Firebase gave you a unique, private ID—no email or
-      password needed. This lets the app save your progress without knowing who
-      you are. Later, if you decide to sign up using email and password (which
-      I’ve enabled), your anonymous account can be upgraded and linked to your
-      new identity—so none of your data is lost. Your privacy stays intact the
-      whole time; nothing personal is shared until you choose to provide it.
-      Just remember, if you uninstall before signing up, your anonymous data
-      might be lost.
+      first opened the app, Firebase gave you a unique, private ID. This lets
+      the app save your progress without knowing who you are. If you log out,
+      your anonymous data will be lost.
     </p>
     <div class="signin">
       <button

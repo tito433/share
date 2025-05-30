@@ -78,10 +78,10 @@ watch(() => route.fullPath, fetchData);
 .card {
   background: rgba(255, 255, 255, 0.04);
   padding: 1rem;
-  gap: 0.5rem;
+  gap: 1rem;
   border-radius: var(--app-border-radius);
   .head {
-    gap: 0.5rem;
+    gap: 1rem;
     align-items: center;
     svg {
       width: 2.5rem;
