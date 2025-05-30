@@ -1,12 +1,13 @@
+import type { User } from "firebase/auth";
 import { ref } from "vue";
 import {
   auth,
+  onAuthStateChanged,
   signInAnonymously,
   signOut,
-  onAuthStateChanged,
 } from "../firebase";
 
-export const currentUser = ref(null);
+export const currentUser = ref<User | null>(null);
 
 onAuthStateChanged(auth, (user) => {
   currentUser.value = user;
