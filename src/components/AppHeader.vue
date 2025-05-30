@@ -41,12 +41,14 @@ header {
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  background-color: var(--app-bg-color);
+  background-color: rgb(255 255 255 / 10%);
   gap: 1rem;
   .brand {
     display: flex;
     text-decoration: none;
+    align-items: center;
     color: var(--app-text-color);
+    gap: var(--app-gap);
 
     svg.logo {
       width: 3rem;
@@ -75,8 +77,8 @@ header {
 @media (max-width: 600px) {
   header .brand {
     svg.logo {
-      width: 4em;
-      height: 4em;
+      width: 3rem;
+      height: 3rem;
     }
     h1 {
       font-size: 1.334rem;

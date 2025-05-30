@@ -1,14 +1,7 @@
 <script setup>
-import {
-  ref,
-  computed,
-  watch,
-  onBeforeUnmount,
-  defineProps,
-  defineEmits,
-} from "vue";
-import { EditorContent, useEditor } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
+import { EditorContent, useEditor } from "@tiptap/vue-3";
+import { computed, defineEmits, defineProps, onBeforeUnmount } from "vue";
 
 // Props & emits
 const props = defineProps({
@@ -163,7 +156,6 @@ const buttonGroups = computed(() => {
   }
   .rich-editor {
     min-height: var(--min-height);
-    padding: 0.5rem;
     background-color: #fff;
     color: #333;
     font-size: 1rem;

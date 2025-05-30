@@ -12,6 +12,7 @@ footer {
   padding: 1rem;
   background-color: var(--app-bg-color);
   gap: 1rem;
+  font-size: 0.75rem;
   a,
   .router-link-active {
     color: var(--app-text-color);
