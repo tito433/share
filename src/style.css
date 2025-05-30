@@ -18,7 +18,9 @@
   --app-primary-bg-color: #FFB74D;
   --app-primary-bg-color-hover: #FFA726;
   --app-primary-text-color: #433433;
+  --app-primary-text-size: 1.125rem;
   --app-container-max-width: 75rem;
+
 }
 
 
@@ -26,6 +28,7 @@ body {
   margin: 0;
   display: flex;
   min-height: 100vh;
+  font-size: var(--app-primary-text-size);
 }
 p{
   margin: 0;
@@ -36,6 +39,7 @@ button{
   align-items: center;
   justify-content: center;
   gap: 0.25em;
+  font-size: var(--app-primary-text-size);
 }
 
 .container{

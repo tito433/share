@@ -2,8 +2,8 @@
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 
-import Editor from "../components/Editor.vue";
-import { useAuth } from "../composables/useAuth";
+import Editor from "@/components/Editor.vue";
+import { useAuth } from "@/composables/useAuth";
 import { addDoc, collection, db } from "../firebase";
 
 const { currentUser, signInAnonymously } = useAuth();
@@ -50,8 +50,9 @@ function addShoutToFirestore(text) {
 }
 </script>
 <template>
-  <section>
-    <div class="shout-add-form">
+  <section class="container">
+    <Loader v-if="isBusy" />
+    <div v-else class="shout-add-form">
       <Editor v-model="data" />
 
       <div class="footer">

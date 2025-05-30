@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { useAuth } from "../composables/useAuth";
+import { useAuth } from "@/composables/useAuth";
+import UserSvg from "@/assets/User.svg";
+
 const { currentUser } = useAuth();
 </script>
 <template>
@@ -29,16 +31,7 @@ const { currentUser } = useAuth();
       <h1>আমি হৃদয়ের কথা <span class="break-sm"></span>বলিতে ব্যাকুল</h1>
     </router-link>
     <router-link v-if="currentUser" class="user" :to="{ name: 'UserPage' }">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="48"
-        height="48"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M12 4a4 4 0 0 1 4 4a4 4 0 0 1-4 4a4 4 0 0 1-4-4a4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4"
-        />
-      </svg>
+      <UserSvg alt="User Icon" width="48" height="48" />
     </router-link>
   </header>
 </template>
@@ -73,12 +66,9 @@ header {
     text-decoration: none;
     font-size: 0;
     svg {
-      width: 2.25rem;
-      height: 2.25rem;
+      width: 3rem;
+      height: 3rem;
       fill: var(--app-text-color);
-      border-radius: 50%;
-      padding: 0.25rem;
-      border: 2px solid var(--app-text-color);
     }
   }
 }

@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { signInAnonymously } from "firebase/auth";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { auth } from "../firebase";
 
-import { useAuth } from "../composables/useAuth";
-const { currentUser } = useAuth();
-console.log(currentUser.value);
-const uid = computed(() => currentUser.value?.uid);
-const userName = computed(() => uid.value?.slice(-4) ?? "");
+import { useAuth } from "@/composables/useAuth";
+const { userId, userName } = useAuth();
 const isSinginInProgress = ref(false);
 const isSignOutProgress = ref(false);
 
@@ -35,8 +32,8 @@ const _signOut = async () => {
 <template>
   <section class="container">
     <h2>About you</h2>
-    <div class="identity" v-if="uid">
-      Guest {{ userName }}<br />ID: {{ uid }}
+    <div class="identity" v-if="userId">
+      {{ userName }}<br />ID: {{ userId }}
     </div>
     <p class="desc">
       You’re an anonymous user created by Firebase Authentication. When you
@@ -51,7 +48,7 @@ const _signOut = async () => {
     </p>
     <div class="signin">
       <button
-        v-if="!uid"
+        v-if="!userId"
         @click="_signIn"
         class="button-primary"
         :disabled="isSinginInProgress"

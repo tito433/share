@@ -3,7 +3,11 @@ import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { format } from "timeago.js";
 import { collection, db, onSnapshot, orderBy, query } from "../firebase";
-import Loader from "../components/Loader.vue";
+import Loader from "@/components/Loader.vue";
+import { useAuth } from "@/composables/useAuth";
+import UserSvg from "@/assets/User.svg";
+
+const { getUserName } = useAuth();
 
 const route = useRoute();
 
@@ -33,10 +37,13 @@ watch(() => route.fullPath, fetchData);
     <div v-for="item in shouts" :key="item.id" class="masonry-item">
       <div class="card">
         <div class="head">
-          {{ item.user }}
-          <span>
-            {{ format(new Date(item.timestamp.seconds * 1000)) }}
-          </span>
+          <UserSvg width="48" height="48" />
+          <div class="author">
+            <span>{{ getUserName(item.userId) }}</span>
+            <i>
+              {{ format(new Date(item.timestamp.seconds * 1000)) }}
+            </i>
+          </div>
         </div>
         <div v-html="item.text"></div>
       </div>
@@ -51,7 +58,6 @@ watch(() => route.fullPath, fetchData);
         viewBox="0 0 1024 1024"
       >
         <path
-          fill="currentColor"
           d="M480 480V128a32 32 0 0 1 64 0v352h352a32 32 0 1 1 0 64H544v352a32 32 0 1 1-64 0V544H128a32 32 0 0 1 0-64z"
         />
       </svg>
@@ -73,8 +79,20 @@ watch(() => route.fullPath, fetchData);
   background: rgba(255, 255, 255, 0.04);
   padding: 1rem;
   .head {
-    text-align: right;
-    font-size: 0.75rem;
+    display: flex;
+    gap: 0.5rem;
+    svg {
+      width: 2.5rem;
+      height: 2.5rem;
+      fill: var(--app-text-color);
+    }
+    .author {
+      display: flex;
+      flex-direction: column;
+      i {
+        font-size: 0.75rem;
+      }
+    }
   }
 }
 
