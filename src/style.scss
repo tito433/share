@@ -12,16 +12,17 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --app-bg-color: rgba(0, 0, 0, 0.33);
+  --app-bg-color: rgba(0, 0, 0);
   --app-text-color: rgba(255, 255, 255, 0.67);
-  --app-border-radius: 1rem;
+  --app-border-radius: 0.25rem;
   --app-gap: 1rem;
   --app-primary-bg-color: #1E90FF;
   --app-primary-bg-color-hover: #1C86EE;
   --app-primary-text-color: white;
   --app-primary-text-size: 1.125rem;
   --app-container-max-width: 75rem;
-
+  --app-border-color: rgba(255, 255, 255, 0.33);
+  --app-header-color: rgba(255, 255, 255, 0.1);
 }
 
 
@@ -42,6 +43,13 @@ button {
   justify-content: center;
   gap: 0.25em;
   font-size: var(--app-primary-text-size);
+  outline: none;
+
+  &:disabled {
+    background-color: gray !important;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
 }
 
 .flex {
@@ -52,6 +60,14 @@ button {
   flex-direction: column;
 }
 
+.flex-center {
+  align-items: center;
+}
+
+.gap-1 {
+  gap: var(--app-gap);
+}
+
 .container {
   width: 100%;
   max-width: var(--app-container-max-width);
@@ -59,12 +75,13 @@ button {
 }
 
 .btn {
-
+  border-radius: var(--app-border-radius, 0.125rem);
   border: none;
   padding: 0.25em 1rem;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.2s ease;
+  background-color: transparent;
 
   svg {
     fill: var(--app-primary-text-color)
@@ -74,6 +91,10 @@ button {
     background-color: var(--app-primary-bg-color);
     color: var(--app-primary-text-color);
 
+  }
+
+  &.circle {
+    border-radius: 50%;
   }
 }
 
@@ -95,7 +116,6 @@ button {
   background-color: #A1887F;
   color: #433433;
 }
-
 
 #app {
   display: flex;

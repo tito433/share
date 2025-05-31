@@ -3,8 +3,6 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import DefaultLayout from "../layouts/DefaultLayout.vue";
 import AboutPage from "../pages/AboutPage.vue";
-import AddPage from "../pages/Add.vue";
-import AuthPage from "../pages/AuthPage.vue";
 import HomePage from "../pages/HomePage.vue";
 import PrivacyPage from "../pages/PrivacyPage.vue";
 import TermsPage from "../pages/TermsPage.vue";
@@ -17,8 +15,6 @@ const routes = [
     children: [
       { path: "", name: "home", component: HomePage },
       { path: "about", name: "about", component: AboutPage },
-      { path: "add", name: "add", component: AddPage },
-      { path: "auth", name: "auth", component: AuthPage },
       { path: "terms", name: "terms", component: TermsPage },
       { path: "privacy", name: "privacy", component: PrivacyPage },
       {

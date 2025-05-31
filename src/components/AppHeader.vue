@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAuth } from "@/composables/useAuth";
 import UserSvg from "@/assets/User.svg";
+import AddPost from "@/components/AddPost.vue";
 
 const { currentUser } = useAuth();
 </script>
@@ -28,11 +29,14 @@ const { currentUser } = useAuth();
         />
         <circle cx="48.926" cy="12.825" r="12.825" />
       </svg>
-      <h1>আমি হৃদয়ের কথা <span class="break-sm"></span>বলিতে ব্যাকুল</h1>
+      <h1>ভাই ব্রাদার্স</h1>
     </router-link>
-    <router-link v-if="currentUser" class="user" :to="{ name: 'UserPage' }">
-      <UserSvg alt="User Icon" width="48" height="48" />
-    </router-link>
+    <div class="right">
+      <AddPost />
+      <router-link v-if="currentUser" class="user" :to="{ name: 'UserPage' }">
+        <UserSvg alt="User Icon" width="48" height="48" />
+      </router-link>
+    </div>
   </header>
 </template>
 <style scoped lang="scss">
@@ -41,7 +45,7 @@ header {
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  background-color: rgb(255 255 255 / 10%);
+  background-color: var(--app-header-color);
   gap: 1rem;
   .brand {
     display: flex;

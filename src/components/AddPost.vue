@@ -1,69 +1,77 @@
 <script setup lang="ts">
-import Editor from "@/components/Editor.vue";
 import { useAuth } from "@/composables/useAuth";
 import { ref } from "vue";
 import { addDoc, collection, db } from "../firebase";
+import { computed } from "vue";
 
 const { currentUser, signInAnonymously } = useAuth();
 const isOpen = ref(false);
-const isLoading = ref(false);
+const isBusy = ref(false);
 const error = ref("");
-
-// Automatically login anonymously if not logged in
-// onMounted(async () => {
-//   if (!currentUser.value) {
-//     isLoading.value = true;
-//     try {
-//       await signInAnonymously();
-//     } catch (e) {
-//       error.value = e.message.replace("Firebase: ", "");
-//     } finally {
-//       isLoading.value = false;
-//     }
-//   }
-// });
 
 const data = ref("");
 
-function sendShout() {
-  if (data.value.trim()) {
-    addShoutToFirestore(data.value.trim());
-    data.value = "";
-    goBack();
-  }
-}
+const canPost = computed(() => {
+  return currentUser.value && !isBusy.value && data.value.trim() !== "";
+});
 
-function addShoutToFirestore(text) {
-  // Always check before write
-  if (!currentUser.value) return;
+const sendShout = async () => {
+  if (data.value.trim()) {
+    await addShoutToFirestore(data.value.trim());
+  }
+};
+const handleClose = () => {
+  isOpen.value = false;
+  data.value = "";
+  isBusy.value = false;
+};
+const addShoutToFirestore = async (text) => {
+  isBusy.value = true;
+  if (!currentUser.value) {
+    try {
+      await signInAnonymously();
+    } catch (e) {
+      error.value = e.message.replace("Firebase: ", "");
+      alert(error.value);
+    } finally {
+      isBusy.value = false;
+      return;
+    }
+  }
   addDoc(collection(db, "shouts"), {
     text,
     timestamp: new Date(),
     userId: currentUser.value.uid,
   });
-}
+  handleClose();
+};
 </script>
 <template>
-  <section class="shout-add-fab">
-    <div v-if="isOpen" class="shout-add-fab__form">
-      <Editor v-model="data" />
-    </div>
-    <div class="shout-add-fab__ctrl">
-      <template v-if="isOpen">
-        <button class="btn btn__secondary" @click="isOpen = false">
+  <section class="post-add">
+    <div v-if="isOpen" class="post-add__form">
+      <div class="header">
+        <div class="flex flex-center gap-1">
+          <button class="btn" @click="handleClose">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12z"
+              />
+            </svg>
+          </button>
+          <h2>নতুন পোস্ট</h2>
+        </div>
+        <button
+          @click="sendShout"
+          class="btn btn__primary"
+          :disabled="!canPost"
+        >
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12z"
-            />
-          </svg>
-        </button>
-        <button @click="sendShout" class="btn btn__primary">
-          <svg
+            v-if="!isBusy"
             width="24"
             height="24"
             xmlns="http://www.w3.org/2000/svg"
@@ -71,9 +79,29 @@ function addShoutToFirestore(text) {
           >
             <path d="M3 20v-6l8-2l-8-2V4l19 8z" />
           </svg>
+          <svg v-else class="animate-spin" fill="none" viewBox="0 0 24 24">
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke-width="4"
+            />
+            <path class="opacity-75" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+          </svg>
         </button>
-      </template>
-      <button v-else class="btn btn__primary" @click="isOpen = true">
+      </div>
+      <div class="body flex flex-col">
+        <textarea
+          v-model="data"
+          class="form-control"
+          placeholder="আপনার ভাবনা আমাদের সাথে ভাগ করুন"
+          rows="5"
+        ></textarea>
+      </div>
+    </div>
+    <div class="post-add__ctrl">
+      <button class="btn btn__primary" @click="isOpen = true">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -89,35 +117,69 @@ function addShoutToFirestore(text) {
   </section>
 </template>
 <style scopped lang="scss">
-.shout-add-fab {
+.post-add {
   &__form {
     position: fixed;
-    left: var(--app-gap);
-    right: var(--app-gap);
-    height: 100%;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.9);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--app-bg-color);
     z-index: 1000;
+    .header {
+      background-color: var(--app-header-color);
+      display: flex;
+      padding: var(--app-gap);
+      justify-content: space-between;
+      align-items: center;
+      h2 {
+        color: var(--app-text-color);
+        font-size: 1.334rem;
+        margin: 0;
+      }
+      .btn {
+        width: 3rem;
+        height: 3rem;
+        padding: 0;
+      }
+    }
+    .body {
+      padding: var(--app-gap);
+      textarea {
+        flex-grow: 1;
+        border: none;
+        outline: none;
+        resize: none;
+        font-size: 1rem;
+        padding: 1rem;
+        border-radius: var(--app-border-radius);
+      }
+    }
   }
   &__ctrl {
-    position: fixed;
-    bottom: 4.5rem;
-    right: 1rem;
-    z-index: 1999;
-    display: flex;
-    gap: var(--app-gap);
-
     .btn {
-      width: 4rem;
-      height: 4rem;
+      width: 3rem;
+      height: 3rem;
       border-radius: 50%;
       padding: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       svg {
-        width: 2rem;
-        height: 2rem;
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+
+      .animate-spin {
+        animation: spin 1s linear infinite;
+      }
+
+      .opacity-25 {
+        opacity: 0.25;
+      }
+
+      .opacity-75 {
+        opacity: 0.75;
       }
     }
   }
@@ -133,6 +195,11 @@ function addShoutToFirestore(text) {
       width: 1.5rem;
       height: 1.5rem;
     }
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 </style>

@@ -15,6 +15,8 @@ import {
   query,
 } from "firebase/firestore";
 
+import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
+
 const firebaseConfig = {
   apiKey: "AIzaSyDWJDMyP6_D179wtsKuHFEjAwoxJSvAfpA",
   authDomain: "shout-01433.firebaseapp.com",
@@ -26,8 +28,15 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const db = getFirestore(app, "bha-brother-shout-433");
+// const db = getFirestore(app);
 const auth = getAuth(app);
+
+// Enable App Check with reCAPTCHA v3
+initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider("6Ld6o1ArAAAAAMlc8ih71CDqDftbKzOikZBlp6Sv"),
+  isTokenAutoRefreshEnabled: true,
+});
 
 export {
   addDoc,

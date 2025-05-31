@@ -4,6 +4,8 @@ import { ref } from "vue";
 import { auth } from "../firebase";
 
 import { useAuth } from "@/composables/useAuth";
+import { useRouter } from "vue-router";
+const router = useRouter();
 const { userId, userName } = useAuth();
 const isSinginInProgress = ref(false);
 const isSignOutProgress = ref(false);
@@ -23,6 +25,7 @@ const _signOut = async () => {
   try {
     await auth.signOut();
     isSignOutProgress.value = false;
+    router.replace({ name: "home" });
   } catch (error) {
     console.error("Sign-out error:", error);
     alert("Failed to sign out: " + (error as Error).message);
@@ -45,7 +48,7 @@ const _signOut = async () => {
       <button
         v-if="!userId"
         @click="_signIn"
-        class="button-primary"
+        class="btn btn__primary"
         :disabled="isSinginInProgress"
       >
         Sign in as Guest
@@ -53,7 +56,7 @@ const _signOut = async () => {
       <button
         v-else
         @click="_signOut"
-        class="btn ml-2"
+        class="btn btn__primary"
         :disabled="isSignOutProgress"
       >
         Sign out
