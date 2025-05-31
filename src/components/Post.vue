@@ -2,19 +2,26 @@
 import { format } from "timeago.js";
 import UserSvg from "@/assets/user.svg";
 import { useAuth } from "@/composables/useAuth";
-
-type Post = {
-  id: string;
-  text: string;
-  timestamp: { seconds: number };
-  userId: string;
-};
+import ReactBtn from "@/components/ReactBtn.vue";
+import type { Shout } from "@/utils";
+import { computed } from "vue";
 
 const props = defineProps<{
-  item: Post;
+  item: Shout;
 }>();
 
-const { getUserName } = useAuth();
+const { getUserName, userId } = useAuth();
+
+const postId = props.item.id;
+const postReaction = computed(() => {
+  if (userId.value) {
+    const exist = props.item.reactions.find((r) => r.id === userId.value);
+    if (exist) {
+      return exist.type;
+    }
+  }
+  return null;
+});
 </script>
 <template>
   <div class="post">
@@ -27,15 +34,20 @@ const { getUserName } = useAuth();
         </i>
       </div>
     </div>
-    <div v-html="item.text" class="body"></div>
+    <div class="body">{{ item.text }}</div>
+    <div class="border-top"></div>
+    <div class="footer flex">
+      <ReactBtn :post-id="postId" :value="postReaction" />
+    </div>
   </div>
 </template>
 <style scoped lang="scss">
 .post {
   background: rgb(255 255 255 / 10%);
-  padding: 1rem;
   gap: 1rem;
   border-radius: var(--app-border-radius);
+  padding: 1rem;
+
   .head {
     gap: 1rem;
     align-items: center;
@@ -44,6 +56,7 @@ const { getUserName } = useAuth();
       height: 2.5rem;
       fill: var(--app-text-color);
     }
+
     .author {
       flex-direction: column;
       span {
@@ -53,6 +66,13 @@ const { getUserName } = useAuth();
         font-size: 0.75rem;
       }
     }
+  }
+  .body {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  .footer {
+    padding-top: 0.5rem;
   }
 }
 </style>

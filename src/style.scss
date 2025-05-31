@@ -16,12 +16,13 @@
   --app-text-color: rgba(255, 255, 255, 0.67);
   --app-border-radius: 0.25rem;
   --app-gap: 1rem;
+  --app-padding: 1rem;
   --app-primary-bg-color: #1E90FF;
   --app-primary-bg-color-hover: #1C86EE;
   --app-primary-text-color: white;
   --app-primary-text-size: 1.125rem;
   --app-container-max-width: 75rem;
-  --app-border-color: rgba(255, 255, 255, 0.33);
+  --app-border-color: rgb(255 255 255 / 10%);
   --app-header-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -74,6 +75,10 @@ button {
   margin: 0 auto;
 }
 
+.relative {
+  position: relative;
+}
+
 .btn {
   border-radius: var(--app-border-radius, 0.125rem);
   border: none;
@@ -117,6 +122,11 @@ button {
   color: #433433;
 }
 
+.border-top {
+  min-height: 1px;
+  border-top: 1px solid var(--app-border-color);
+}
+
 #app {
   display: flex;
   flex-direction: column;
@@ -130,8 +140,16 @@ button {
   flex-grow: 1;
 }
 
-.card {
-  padding: 2em;
+.color-blue {
+  color: #1C86EE
+}
+
+.color-yellow {
+  color: #ffda6b
+}
+
+.color-red {
+  color: #f8312f
 }
 
 @media (prefers-color-scheme: light) {

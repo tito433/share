@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useAuth } from "@/composables/useAuth";
+import { useAuth, newShoutCount } from "@/composables";
 import { ref } from "vue";
-import { addDoc, collection, db } from "../firebase";
+import { addDoc, collection, db } from "@/firebase";
 import { computed } from "vue";
 
 const { currentUser, signInAnonymously } = useAuth();
@@ -12,7 +12,7 @@ const error = ref("");
 const data = ref("");
 
 const canPost = computed(() => {
-  return currentUser.value && !isBusy.value && data.value.trim() !== "";
+  return !isBusy.value && data.value.trim() !== "";
 });
 
 const sendShout = async () => {
@@ -33,9 +33,6 @@ const addShoutToFirestore = async (text) => {
     } catch (e) {
       error.value = e.message.replace("Firebase: ", "");
       alert(error.value);
-    } finally {
-      isBusy.value = false;
-      return;
     }
   }
   addDoc(collection(db, "shouts"), {
@@ -44,10 +41,11 @@ const addShoutToFirestore = async (text) => {
     userId: currentUser.value.uid,
   });
   handleClose();
+  newShoutCount.value = newShoutCount.value + 1;
 };
 </script>
 <template>
-  <section class="post-add">
+  <section class="post-add flex flex-col flex-center">
     <div v-if="isOpen" class="post-add__form">
       <div class="header">
         <div class="flex flex-center gap-1">
@@ -100,7 +98,7 @@ const addShoutToFirestore = async (text) => {
         ></textarea>
       </div>
     </div>
-    <div class="post-add__ctrl">
+    <div class="post-add__ctrl flex-center">
       <button class="btn btn__primary" @click="isOpen = true">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -158,13 +156,14 @@ const addShoutToFirestore = async (text) => {
   }
   &__ctrl {
     .btn {
-      width: 3rem;
-      height: 3rem;
+      width: 2.5rem;
+      height: 2.5rem;
       border-radius: 50%;
       padding: 0;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 0;
       svg {
         width: 1.5rem;
         height: 1.5rem;
@@ -183,20 +182,20 @@ const addShoutToFirestore = async (text) => {
       }
     }
   }
-}
-
-.footer {
-  display: flex;
-  justify-content: end;
-  margin-top: 1rem;
-  gap: 1rem;
-  button {
-    svg {
-      width: 1.5rem;
-      height: 1.5rem;
+  .footer {
+    display: flex;
+    justify-content: end;
+    margin-top: 1rem;
+    gap: 1rem;
+    button {
+      svg {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
     }
   }
 }
+
 @keyframes spin {
   to {
     transform: rotate(360deg);

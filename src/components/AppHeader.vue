@@ -31,7 +31,7 @@ const { currentUser } = useAuth();
       </svg>
       <h1>ভাই ব্রাদার্স</h1>
     </router-link>
-    <div class="right">
+    <div class="right flex flex-center gap-1">
       <AddPost />
       <router-link v-if="currentUser" class="user" :to="{ name: 'UserPage' }">
         <UserSvg alt="User Icon" width="48" height="48" />
