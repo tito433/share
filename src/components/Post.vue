@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { format } from "timeago.js";
-import UserSvg from "@/assets/User.svg";
-import { useAuth } from "@/composables/useAuth";
-import ReactBtn from "@/components/ReactBtn.vue";
-import PhotoGallery from "@/components/PhotoGallery.vue";
-import type { Shout } from "@/utils";
-import { computed } from "vue";
-import { ReactionEnum } from "@/utils";
 import AngrySvg from "@/assets/Angry.svg";
 import HeartSvg from "@/assets/Heart.svg";
 import LikeSvg from "@/assets/Like.svg";
 import SadSvg from "@/assets/Sad.svg";
 import SmileSvg from "@/assets/Smile.svg";
+import UserSvg from "@/assets/User.svg";
 import WowSvg from "@/assets/Wow.svg";
+import PhotoGallery from "@/components/PhotoGallery.vue";
+import ReactBtn from "@/components/ReactBtn.vue";
+import { useAuth } from "@/composables/useAuth";
+import type { Shout } from "@/utils";
+import { ReactionEnum } from "@/utils";
+import { format } from "timeago.js";
+import { computed, nextTick, onMounted, ref } from "vue";
 
 const props = defineProps<{
   item: Shout;
@@ -58,6 +58,26 @@ const topReactions = computed(() => {
     .filter(([, count]) => count === maxCount)
     .map(([type]) => type as ReactionEnum);
 });
+
+const textRef = ref(null);
+const isTruncatable = ref(false);
+const isExpanded = ref(false);
+
+const checkTruncation = () => {
+  const el = textRef.value;
+  if (el) {
+    isTruncatable.value = el.scrollHeight > el.clientHeight;
+  }
+};
+
+const toggle = () => {
+  isExpanded.value = !isExpanded.value;
+};
+
+onMounted(() => {
+  nextTick(checkTruncation);
+  window.addEventListener("resize", checkTruncation);
+});
 </script>
 <template>
   <div class="post">
@@ -71,7 +91,22 @@ const topReactions = computed(() => {
       </div>
     </div>
     <div class="body flex flex-col gap-1">
-      {{ item.text }}
+      <div>
+        <div
+          ref="textRef"
+          :class="['text-container', { expanded: isExpanded }]"
+        >
+          {{ item.text }}
+        </div>
+        <button
+          v-if="isTruncatable && !isExpanded"
+          @click="toggle"
+          class="readmore"
+        >
+          আরও পড়ুন
+        </button>
+      </div>
+
       <PhotoGallery
         v-if="item.files && item.files.length > 0"
         :files="item.files"
@@ -79,14 +114,16 @@ const topReactions = computed(() => {
     </div>
     <div class="flex flex-center gap-1 summary">
       <span v-if="totalReactions > 0" class="flex flex-center reactions-count">
-        <template v-for="(reaction, index) in topReactions" :key="index">
-          <LikeSvg v-if="reaction === ReactionEnum.Like" fill="#1E90FF" />
-          <SmileSvg v-else-if="reaction === ReactionEnum.Haha" />
-          <HeartSvg v-else-if="reaction === ReactionEnum.Love" />
-          <WowSvg v-else-if="reaction === ReactionEnum.Wow" />
-          <SadSvg v-else-if="reaction === ReactionEnum.Sad" />
-          <AngrySvg v-else-if="reaction === ReactionEnum.Angry" />
-        </template>
+        <span>
+          <template v-for="(reaction, index) in topReactions" :key="index">
+            <LikeSvg v-if="reaction === ReactionEnum.Like" fill="#1E90FF" />
+            <SmileSvg v-else-if="reaction === ReactionEnum.Haha" />
+            <HeartSvg v-else-if="reaction === ReactionEnum.Love" />
+            <WowSvg v-else-if="reaction === ReactionEnum.Wow" />
+            <SadSvg v-else-if="reaction === ReactionEnum.Sad" />
+            <AngrySvg v-else-if="reaction === ReactionEnum.Angry" />
+          </template>
+        </span>
         {{ totalReactions }}
       </span>
     </div>
@@ -98,7 +135,7 @@ const topReactions = computed(() => {
 </template>
 <style scoped lang="scss">
 .post {
-  background: rgb(255 255 255 / 10%);
+  background: var(--app-post-bg-color);
   gap: 1rem;
   border-radius: var(--app-border-radius);
   padding: 1rem;
@@ -125,6 +162,27 @@ const topReactions = computed(() => {
   .body {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+    .text-container {
+      display: -webkit-box;
+      -webkit-line-clamp: 6;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      white-space: pre-line;
+    }
+
+    .text-container.expanded {
+      -webkit-line-clamp: unset;
+      overflow: visible;
+    }
+    .readmore {
+      color: var(--app-primary-color);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      padding-left: 0;
+    }
   }
   .summary {
     padding-bottom: 0.25rem;

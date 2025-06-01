@@ -170,8 +170,8 @@ const addOrUpdateReaction = async (newReaction: ReactionEnum) => {
 <style scoped lang="scss">
 .likebtn {
   gap: 0.5rem;
-  fill: var(--app-text-color);
-  color: var(--app-text-color);
+  fill: var(--app-primary-color);
+  color: var(--app-primary-color);
   background-color: transparent;
   border: none;
   box-shadow: none;

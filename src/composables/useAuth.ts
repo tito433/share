@@ -13,7 +13,7 @@ const uid = computed(() => currentUser.value?.uid);
 const userName = computed(() => getUserName(uid.value));
 
 const getUserName = (user: string | undefined | null): string | null => {
-  if (user) return "Guest " + user.slice(-3);
+  if (user) return "Bhai " + user.slice(-3);
   return null;
 };
 

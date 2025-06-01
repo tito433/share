@@ -24,6 +24,8 @@
   --app-container-max-width: 75rem;
   --app-border-color: rgb(255 255 255 / 10%);
   --app-header-color: rgba(255, 255, 255, 0.1);
+  --app-post-bg-color: rgba(255, 255, 255, 0.1);
+  --app-input-bg-color: rgba(0, 0, 0, 0.1);
 }
 
 
@@ -219,7 +221,11 @@ button {
   :root {
     color: #213547;
     background-color: #ffffff;
-    --app-bg-color: rgba(255, 255, 255, 0.33);
+    --app-bg-color: rgba(255, 255, 255);
     --app-text-color: rgba(0, 0, 0, 0.67);
+    --app-primary-text-color: var(--app-text-color);
+    --app-header-color: rgba(0, 0, 0, 0.1);
+    --app-post-bg-color: rgba(0, 0, 0, 0.1);
+    --app-input-bg-color: rgba(0, 0, 0, 0.1);
   }
 }

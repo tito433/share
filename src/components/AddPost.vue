@@ -22,9 +22,7 @@ const canPost = computed(() => {
 });
 
 const sendShout = async () => {
-  if (data.value.trim()) {
-    await addShoutToFirestore(data.value.trim());
-  }
+  await addShoutToFirestore(data.value.trim());
 };
 const handleClose = () => {
   isOpen.value = false;
@@ -101,6 +99,8 @@ const handleFileChange = (value: string[]) => {
       </div>
       <div class="body flex flex-col flex-grow">
         <textarea
+          autofocus
+          tabindex="0"
           v-model="data"
           class="form-control"
           placeholder="আপনার ভাবনা আমাদের সাথে ভাগ করুন"
@@ -163,6 +163,7 @@ const handleFileChange = (value: string[]) => {
         font-size: 1rem;
         padding: 1rem;
         border-radius: var(--app-border-radius);
+        background-color: var(--app-input-bg-color);
       }
     }
     .images {
