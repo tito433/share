@@ -177,6 +177,7 @@ const addOrUpdateReaction = async (newReaction: ReactionEnum) => {
   background-color: transparent;
   border: none;
   box-shadow: none;
+  padding: 0;
 }
 .reaction-panel {
   position: absolute;

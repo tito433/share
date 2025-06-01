@@ -5,6 +5,13 @@ import { useAuth } from "@/composables/useAuth";
 import ReactBtn from "@/components/ReactBtn.vue";
 import type { Shout } from "@/utils";
 import { computed } from "vue";
+import { ReactionEnum } from "@/utils";
+import AngrySvg from "@/assets/Angry.svg";
+import HeartSvg from "@/assets/Heart.svg";
+import LikeSvg from "@/assets/Like.svg";
+import SadSvg from "@/assets/Sad.svg";
+import SmileSvg from "@/assets/Smile.svg";
+import WowSvg from "@/assets/Wow.svg";
 
 const props = defineProps<{
   item: Shout;
@@ -14,13 +21,41 @@ const { getUserName, userId } = useAuth();
 
 const postId = props.item.id;
 const postReaction = computed(() => {
-  if (userId.value) {
+  if (userId.value && props.item.reactions) {
     const exist = props.item.reactions.find((r) => r.id === userId.value);
     if (exist) {
       return exist.type;
     }
   }
   return null;
+});
+const totalReactions = computed(() => {
+  return props.item.reactions?.reduce((acc, r) => {
+    return acc + 1;
+  }, 0);
+});
+
+const topReactions = computed(() => {
+  const reactions = props.item.reactions;
+  const countMap: Record<ReactionEnum, number> = {
+    like: 0,
+    haha: 0,
+    love: 0,
+    wow: 0,
+    sad: 0,
+    poop: 0,
+    angry: 0,
+  };
+
+  for (const { type } of reactions) {
+    countMap[type]++;
+  }
+
+  const maxCount = Math.max(...Object.values(countMap));
+
+  return Object.entries(countMap)
+    .filter(([, count]) => count === maxCount)
+    .map(([type]) => type as ReactionEnum);
 });
 </script>
 <template>
@@ -35,6 +70,19 @@ const postReaction = computed(() => {
       </div>
     </div>
     <div class="body">{{ item.text }}</div>
+    <div class="flex flex-center gap-1 summary">
+      <span v-if="totalReactions > 0" class="flex flex-center reactions-count">
+        <template v-for="(reaction, index) in topReactions" :key="index">
+          <LikeSvg v-if="reaction === ReactionEnum.Like" fill="#1E90FF" />
+          <SmileSvg v-else-if="reaction === ReactionEnum.Haha" />
+          <HeartSvg v-else-if="reaction === ReactionEnum.Love" />
+          <WowSvg v-else-if="reaction === ReactionEnum.Wow" />
+          <SadSvg v-else-if="reaction === ReactionEnum.Sad" />
+          <AngrySvg v-else-if="reaction === ReactionEnum.Angry" />
+        </template>
+        {{ totalReactions }}
+      </span>
+    </div>
     <div class="border-top"></div>
     <div class="footer flex">
       <ReactBtn :post-id="postId" :value="postReaction" />
@@ -71,6 +119,18 @@ const postReaction = computed(() => {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
   }
+  .summary {
+    padding-bottom: 0.25rem;
+    .reactions-count {
+      font-size: 1rem;
+      gap: 0.5rem;
+      svg {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+  }
+
   .footer {
     padding-top: 0.5rem;
   }
