@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useAuth } from "@/composables/useAuth";
-import UserSvg from "@/assets/User.svg";
 import AddPost from "@/components/AddPost.vue";
 
 const { currentUser } = useAuth();
@@ -33,9 +32,9 @@ const { currentUser } = useAuth();
     </router-link>
     <div class="right flex flex-center gap-1">
       <AddPost />
-      <router-link v-if="currentUser" class="user" :to="{ name: 'UserPage' }">
+      <!-- <router-link v-if="currentUser" class="user" :to="{ name: 'UserPage' }">
         <UserSvg alt="User Icon" width="48" height="48" />
-      </router-link>
+      </router-link> -->
     </div>
   </header>
 </template>

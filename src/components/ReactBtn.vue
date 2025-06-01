@@ -63,8 +63,6 @@ const addOrUpdateReaction = async (newReaction: ReactionEnum) => {
     await signInAnonymously();
   }
 
-  console.log("userId", userId.value, shoutId);
-
   const shoutRef = doc(db, "shouts", shoutId);
   const userReactionRef = doc(db, `shouts/${shoutId}/reactions`, userId.value);
 
@@ -185,6 +183,7 @@ const addOrUpdateReaction = async (newReaction: ReactionEnum) => {
   bottom: 100%;
   display: flex;
   transition: all 0.3s ease;
+  left: 0;
   .wrap {
     justify-content: center;
     margin-bottom: 0.5rem;

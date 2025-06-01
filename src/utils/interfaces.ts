@@ -26,4 +26,10 @@ export type Shout = {
     timestamp: Timestamp;
     type: ReactionEnum;
   }[];
+  files?: string[];
 };
+
+export interface UploadItem {
+  progress: number;
+  url: string | null;
+}

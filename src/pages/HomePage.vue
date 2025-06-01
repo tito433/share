@@ -68,6 +68,7 @@ const loadShoutsPage = async () => {
   }
 
   shouts.value.push(...newShouts);
+  // console.log(shouts.value);
   isBusy.value = false;
 };
 

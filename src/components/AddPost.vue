@@ -1,18 +1,24 @@
 <script setup lang="ts">
-import { useAuth, newShoutCount } from "@/composables";
-import { ref } from "vue";
+import { newShoutCount, notify, useAuth } from "@/composables";
 import { addDoc, collection, db } from "@/firebase";
-import { computed } from "vue";
+import { computed, ref } from "vue";
+
+import PhotoUploader from "@/components/PhotoUploader.vue";
 
 const { currentUser, signInAnonymously } = useAuth();
 const isOpen = ref(false);
 const isBusy = ref(false);
-const error = ref("");
+const images = ref<string[]>([]);
 
 const data = ref("");
 
+// notify("পোস্ট ", "success");
+// notify("পোস্ট 1", "info");
+// notify("পোস্ট 2", "warning");
+// notify("পোস্ট 3", "error");
+
 const canPost = computed(() => {
-  return !isBusy.value && data.value.trim() !== "";
+  return !isBusy.value && (data.value.trim() !== "" || images.value.length > 0);
 });
 
 const sendShout = async () => {
@@ -31,22 +37,26 @@ const addShoutToFirestore = async (text) => {
     try {
       await signInAnonymously();
     } catch (e) {
-      error.value = e.message.replace("Firebase: ", "");
-      alert(error.value);
+      console.error(e);
+      notify("Can not get private ID", "error");
     }
   }
   addDoc(collection(db, "shouts"), {
     text,
     timestamp: new Date(),
     userId: currentUser.value.uid,
+    files: images.value,
   });
   handleClose();
   newShoutCount.value = newShoutCount.value + 1;
 };
+const handleFileChange = (value: string[]) => {
+  images.value = [...value];
+};
 </script>
 <template>
   <section class="post-add flex flex-col flex-center">
-    <div v-if="isOpen" class="post-add__form">
+    <div v-if="isOpen" class="post-add__form flex flex-col">
       <div class="header">
         <div class="flex flex-center gap-1">
           <button class="btn" @click="handleClose">
@@ -89,13 +99,14 @@ const addShoutToFirestore = async (text) => {
           </svg>
         </button>
       </div>
-      <div class="body flex flex-col">
+      <div class="body flex flex-col flex-grow">
         <textarea
           v-model="data"
           class="form-control"
           placeholder="আপনার ভাবনা আমাদের সাথে ভাগ করুন"
           rows="5"
         ></textarea>
+        <PhotoUploader @change="handleFileChange" />
       </div>
     </div>
     <div class="post-add__ctrl flex-center">
@@ -142,6 +153,7 @@ const addShoutToFirestore = async (text) => {
       }
     }
     .body {
+      gap: var(--app-gap);
       padding: var(--app-gap);
       textarea {
         flex-grow: 1;
@@ -152,6 +164,9 @@ const addShoutToFirestore = async (text) => {
         padding: 1rem;
         border-radius: var(--app-border-radius);
       }
+    }
+    .images {
+      padding: var(--app-gap);
     }
   }
   &__ctrl {

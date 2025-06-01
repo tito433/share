@@ -14,6 +14,7 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
@@ -28,9 +29,10 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-// const db = getFirestore(app, "bha-brother-shout-433");
-const db = getFirestore(app);
+const db = getFirestore(app, "bha-brother-shout-433");
+// const db = getFirestore(app);
 const auth = getAuth(app);
+const storage = getStorage(app);
 
 // Enable App Check with reCAPTCHA v3
 initializeAppCheck(app, {
@@ -50,4 +52,5 @@ export {
   query,
   signInAnonymously,
   signOut,
+  storage,
 };

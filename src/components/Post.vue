@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { format } from "timeago.js";
-import UserSvg from "@/assets/user.svg";
+import UserSvg from "@/assets/User.svg";
 import { useAuth } from "@/composables/useAuth";
 import ReactBtn from "@/components/ReactBtn.vue";
+import PhotoGallery from "@/components/PhotoGallery.vue";
 import type { Shout } from "@/utils";
 import { computed } from "vue";
 import { ReactionEnum } from "@/utils";
@@ -69,7 +70,13 @@ const topReactions = computed(() => {
         </i>
       </div>
     </div>
-    <div class="body">{{ item.text }}</div>
+    <div class="body flex flex-col gap-1">
+      {{ item.text }}
+      <PhotoGallery
+        v-if="item.files && item.files.length > 0"
+        :files="item.files"
+      />
+    </div>
     <div class="flex flex-center gap-1 summary">
       <span v-if="totalReactions > 0" class="flex flex-center reactions-count">
         <template v-for="(reaction, index) in topReactions" :key="index">
