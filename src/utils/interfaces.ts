@@ -28,3 +28,12 @@ export interface UploadItem {
   progress: number;
   url: string | null;
 }
+
+export interface Comment {
+  id: string;
+  content: string;
+  authorId: string;
+  parentCommentId: string | null;
+  timestamp: any;
+  replies?: Comment[];
+}

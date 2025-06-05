@@ -12,6 +12,7 @@ import SmileSvg from "@/assets/Smile.svg";
 import WowSvg from "@/assets/Wow.svg";
 import { useAuth } from "@/composables";
 import { ReactionEnum } from "@/utils";
+import { watch } from "vue";
 
 const props = defineProps<{
   postId: string;
@@ -104,6 +105,13 @@ const addOrUpdateReaction = async (newReaction: ReactionEnum) => {
     transaction.update(shoutRef, summaryUpdates);
   });
 };
+watch(
+  () => props.value,
+  (newValue) => {
+    currValue.value = newValue;
+  },
+  { immediate: true }
+);
 </script>
 
 <template>

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import UserSvg from "@/assets/User.svg";
 import PhotoGallery from "@/components/PhotoGallery.vue";
 import ReactBtn from "@/components/reaction/ReactBtn.vue";
 import ReactionTop from "@/components/reaction/top.vue";
+import User from "@/components/UserTimestamp.vue";
 import Skeleton from "@/components/skeleton/index.vue";
 import SkeletonItem from "@/components/skeleton/item.vue";
 
@@ -13,12 +13,14 @@ import { ReactionEnum } from "@/utils";
 import { collection, getDocs } from "firebase/firestore";
 import { format } from "timeago.js";
 import { computed, nextTick, onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 
 const props = defineProps<{
   item: Shout;
 }>();
 
 const { getUserName, userId } = useAuth();
+const router = useRouter();
 
 const postId = props.item.id;
 const reactions = ref([]);
@@ -93,6 +95,10 @@ const fetchReactions = async () => {
   loadingReaction.value = false;
 };
 
+function goToStory() {
+  router.push("/story/" + postId);
+}
+
 onMounted(() => {
   fetchReactions();
   nextTick(checkTruncation);
@@ -101,14 +107,11 @@ onMounted(() => {
 </script>
 <template>
   <div class="post">
-    <div class="head flex">
-      <UserSvg width="48" height="48" />
-      <div class="author flex">
-        <span>{{ getUserName(item.userId) }}</span>
-        <i>
-          {{ format(new Date(item.timestamp.seconds * 1000)) }}
-        </i>
-      </div>
+    <div class="head">
+      <User
+        :user="getUserName(item.userId)"
+        :timestamp="new Date(item.timestamp.seconds * 1000)"
+      />
     </div>
     <div class="body flex flex-col gap-1">
       <div>
@@ -145,9 +148,31 @@ onMounted(() => {
       </Skeleton>
     </div>
     <div class="border-top"></div>
-    <div class="footer flex">
+    <div class="footer flex justify-between">
       <ReactBtn :post-id="postId" :value="postReaction" />
+      <button class="flex" @click="goToStory">
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g>
+            <g>
+              <path
+                d="M1.98608 11.1034C1.98608 13.3236 2.78607 15.376 4.13153 16.9992C5.93153 19.238 8.78608 20.6746 11.9861 20.6746C11.9861 20.6746 15.5028 21.9659 17.8427 22.4553C18.6528 22.6248 19.5517 22.0692 19.5517 21.3173C19.5517 20.4026 17.9861 18.753 17.9861 18.753C19.1009 17.959 20.033 16.9462 20.7162 15.7808C21.526 14.3994 21.9861 12.8036 21.9861 11.1034C21.9861 9.39876 21.5255 7.7997 20.7162 6.41587C19.9666 5.13402 18.9178 4.03683 17.6588 3.21143C16.0406 2.12931 14.0952 1.51367 11.9861 1.51367C6.45881 1.51367 1.98608 5.80475 1.98608 11.1034Z"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+          </g>
+        </svg>
+        Comment
+      </button>
     </div>
+    <slot name="append"></slot>
   </div>
 </template>
 <style scoped lang="scss">
@@ -160,21 +185,6 @@ onMounted(() => {
   .head {
     gap: 1rem;
     align-items: center;
-    svg {
-      width: 2.5rem;
-      height: 2.5rem;
-      fill: var(--app-text-color);
-    }
-
-    .author {
-      flex-direction: column;
-      span {
-        line-height: 1;
-      }
-      i {
-        font-size: 0.75rem;
-      }
-    }
   }
   .body {
     padding-top: 0.5rem;
@@ -207,6 +217,14 @@ onMounted(() => {
 
   .footer {
     padding-top: 0.5rem;
+    button {
+      background-color: transparent;
+      border: none;
+      gap: 0.5rem;
+      stroke: var(--app-primary-color);
+      fill: var(--app-primary-color);
+      color: var(--app-primary-color);
+    }
   }
 }
 </style>

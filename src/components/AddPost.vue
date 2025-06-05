@@ -2,8 +2,9 @@
 import { newShoutCount, notify, useAuth } from "@/composables";
 import { addDoc, collection, db } from "@/firebase";
 import { computed, ref } from "vue";
-
+import SendSvg from "@/assets/send.svg";
 import PhotoUploader from "@/components/PhotoUploader.vue";
+import Btn from "@/components/Btn.vue";
 
 const { currentUser, signInAnonymously } = useAuth();
 const isOpen = ref(false);
@@ -71,31 +72,14 @@ const handleFileChange = (value: string[]) => {
           </button>
           <h2>নতুন পোস্ট</h2>
         </div>
-        <button
+        <Btn
           @click="sendShout"
+          :loading="isBusy"
           class="btn btn__primary"
           :disabled="!canPost"
         >
-          <svg
-            v-if="!isBusy"
-            width="24"
-            height="24"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-          >
-            <path d="M3 20v-6l8-2l-8-2V4l19 8z" />
-          </svg>
-          <svg v-else class="animate-spin" fill="none" viewBox="0 0 24 24">
-            <circle
-              class="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke-width="4"
-            />
-            <path class="opacity-75" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
-          </svg>
-        </button>
+          <SendSvg width="24" height="24" />
+        </Btn>
       </div>
       <div class="body flex flex-col flex-grow">
         <textarea

@@ -7,6 +7,7 @@ import HomePage from "../pages/HomePage.vue";
 import PrivacyPage from "../pages/PrivacyPage.vue";
 import TermsPage from "../pages/TermsPage.vue";
 import UserPage from "../pages/UserPage.vue";
+import StoryPage from "@/pages/StoryPage.vue";
 // Use named views/layouts pattern for layout (most universal)
 const routes = [
   {
@@ -21,6 +22,10 @@ const routes = [
         path: "user",
         name: "UserPage",
         component: UserPage,
+      },
+      {
+        path: "/story/:id",
+        component: StoryPage,
       },
     ],
   },

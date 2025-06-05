@@ -25,7 +25,8 @@
   --app-border-color: rgb(255 255 255 / 10%);
   --app-header-color: rgba(255, 255, 255, 0.1);
   --app-post-bg-color: rgba(255, 255, 255, 0.1);
-  --app-input-bg-color: rgba(0, 0, 0, 0.1);
+  --app-input-bg-color: rgba(255, 255, 255, 0.1);
+  --app-comment-bg-color: #333;
 }
 
 
@@ -228,5 +229,6 @@ button {
     --app-post-bg-color: rgba(0, 0, 0, 0.1);
     --app-input-bg-color: rgba(0, 0, 0, 0.1);
     --app-border-color: rgb(0 0 0 / 20%);
+    --app-comment-bg-color: #d9d9d9;
   }
 }
