@@ -2,6 +2,10 @@
 import { notify } from "@/composables";
 import { computed, ref } from "vue";
 import ImageLoader from "@/components/ImageLoader.vue";
+import Modal from "@/components/Modal.vue";
+import ImageSlider from "@/components/ImageSlider.vue";
+
+const open = ref(false);
 
 const props = defineProps<{
   files?: string[];
@@ -23,6 +27,7 @@ const openPreview = () => {
   <div class="photo-gallery">
     <div class="photo-gallery__photos">
       <div
+        @click="open = true"
         v-if="files.length === 1"
         class="photo-gallery__photos__item full-size"
       >
@@ -37,6 +42,7 @@ const openPreview = () => {
         v-for="(item, idx) in displayedImages"
         :key="idx"
         class="photo-gallery__photos__item"
+        @click="open = true"
       >
         <div class="aspect-wide">
           <div class="aspect-wide__wrap">
@@ -53,6 +59,9 @@ const openPreview = () => {
       </div>
     </div>
   </div>
+  <Modal :show="open" @close="open = false">
+    <ImageSlider :images="props.files" />
+  </Modal>
 </template>
 <style scoped lang="scss">
 .photo-gallery {

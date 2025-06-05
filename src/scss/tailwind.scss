@@ -421,3 +421,135 @@
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite linear;
 }
+
+/* Layout and Positioning */
+.fixed {
+    position: fixed;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.relative {
+    position: relative;
+}
+
+.inset-0 {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.top-2 {
+    top: 0.5rem;
+}
+
+.left-2 {
+    left: 0.5rem;
+}
+
+.z-10 {
+    z-index: 10;
+}
+
+.z-50 {
+    z-index: 50;
+}
+
+.flex {
+    display: flex;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+/* Sizing */
+.w-full {
+    width: 100%;
+}
+
+.max-w-md {
+    max-width: 28rem;
+    /* 448px */
+}
+
+/* Padding and Margin */
+.p-2 {
+    padding: 0.5rem;
+}
+
+.p-6 {
+    padding: 1.5rem;
+}
+
+.mb-4 {
+    margin-bottom: 1rem;
+}
+
+/* Colors and Backgrounds */
+.bg-black {
+    background-color: #000000;
+}
+
+.bg-white {
+    background-color: #ffffff;
+}
+
+.bg-blue-500 {
+    background-color: #3B82F6;
+}
+
+.text-white {
+    color: #ffffff;
+}
+
+.text-gray-600 {
+    color: #4B5563;
+}
+
+.text-black {
+    color: #000000;
+}
+
+/* Font and Text */
+.text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+/* Borders and Radius */
+.rounded {
+    border-radius: 0.25rem;
+}
+
+.rounded-lg {
+    border-radius: 0.5rem;
+}
+
+/* Shadow */
+.shadow-lg {
+    box-shadow:
+        0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+/* Opacity */
+.opacity-50 {
+    opacity: 0.5;
+}
+
+/* Hover States */
+button:hover.text-black {
+    color: #000000;
+}

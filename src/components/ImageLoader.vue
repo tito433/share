@@ -17,9 +17,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
-defineProps<{
+const props = defineProps<{
   src: string;
   alt?: string;
 }>();
@@ -29,4 +29,12 @@ const loaded = ref(false);
 function handleLoad() {
   loaded.value = true;
 }
+watch(
+  () => props.src,
+  (newVal, oldVal) => {
+    if (newVal !== oldVal) {
+      loaded.value = false;
+    }
+  }
+);
 </script>
