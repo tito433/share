@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import UserSvg from "@/assets/User.svg";
-import SendSvg from "@/assets/send.svg";
+import SendSvg from "@/assets/Send.svg";
 import { notify, useAuth } from "@/composables";
 import Btn from "@/components/Btn.vue";
 import { addDoc, collection, db } from "@/firebase";

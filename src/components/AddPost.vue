@@ -2,7 +2,7 @@
 import { newShoutCount, notify, useAuth } from "@/composables";
 import { addDoc, collection, db } from "@/firebase";
 import { computed, ref } from "vue";
-import SendSvg from "@/assets/send.svg";
+import SendSvg from "@/assets/Send.svg";
 import PhotoUploader from "@/components/PhotoUploader.vue";
 import Btn from "@/components/Btn.vue";
 

@@ -5,7 +5,10 @@
         "@/*": ["src/*"]
       },
       "esModuleInterop": true,
-      "allowSyntheticDefaultImports": true
+      "allowSyntheticDefaultImports": true,
+      "noEmit": true,
+      "strict": true,
+      "isolatedModules": true
     }
   }
   
