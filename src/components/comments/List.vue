@@ -70,7 +70,7 @@ onMounted(getComments);
       class="comment-item flex"
     >
       <UserSvg class="icon" width="2.5rem" height="2.5rem" />
-      <div class="comment-item-body flex flex-col flex-grow">
+      <div class="comment-item-body bg-2 flex flex-col flex-grow">
         <div class="comment-item-body-author flex justify-between">
           <span class="author-name">{{ getUserName(comment.authorId) }}</span>
           <i class="timestamp">{{
@@ -102,7 +102,6 @@ onMounted(getComments);
     .comment-item-body {
       padding: 0.25rem 0.5rem;
       border-radius: 0.5rem;
-      background-color: var(--app-comment-bg-color);
     }
   }
 }

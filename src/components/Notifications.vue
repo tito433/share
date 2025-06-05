@@ -1,7 +1,7 @@
 <!-- components/Notifications.vue -->
 <template>
   <teleport to="body">
-    <div class="fixed bottom-4 left-4 space-y-2 z-50 flex flex-col-reverse">
+    <div class="fixed bottom-4 left-4 space-y-2 z-max flex flex-col-reverse">
       <transition-group name="fade" tag="div" class="flex flex-col gap-1">
         <div
           v-for="note in notifications"

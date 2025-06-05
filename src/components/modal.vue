@@ -64,10 +64,10 @@ onBeforeUnmount(() => {
   }
   button {
     padding: 0.5rem;
-    border-radius: 50%;
     border: none;
     outline: none;
     &.btn-close {
+      border-radius: 50%;
       top: 1rem;
       left: 1rem;
       fill: var(--app-primary-text-color);

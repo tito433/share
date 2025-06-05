@@ -217,6 +217,9 @@ button {
   }
 }
 
+.bg-2 {
+  background-color: var(--app-comment-bg-color);
+}
 
 @media (prefers-color-scheme: light) {
   :root {

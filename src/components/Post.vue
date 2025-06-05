@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import BtnShare from "@/components/BtnShare.vue";
 import PhotoGallery from "@/components/PhotoGallery.vue";
+import User from "@/components/UserTimestamp.vue";
 import ReactBtn from "@/components/reaction/ReactBtn.vue";
 import ReactionTop from "@/components/reaction/top.vue";
-import User from "@/components/UserTimestamp.vue";
 import Skeleton from "@/components/skeleton/index.vue";
 import SkeletonItem from "@/components/skeleton/item.vue";
 
@@ -11,7 +12,6 @@ import { db } from "@/firebase";
 import type { Shout } from "@/utils";
 import { ReactionEnum } from "@/utils";
 import { collection, getDocs } from "firebase/firestore";
-import { format } from "timeago.js";
 import { computed, nextTick, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 
@@ -171,6 +171,7 @@ onMounted(() => {
         </svg>
         Comment
       </button>
+      <BtnShare :post-id="postId" />
     </div>
     <slot name="append"></slot>
   </div>
