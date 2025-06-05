@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SpinnerSvg from "@/assets/spinner.svg";
+import SpinnerSvg from "@/assets/Spinner.svg";
 defineProps<{
   disabled?: boolean;
   loading?: boolean;
