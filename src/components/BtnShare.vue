@@ -2,7 +2,7 @@
 import { ref, computed } from "vue";
 import Modal from "@/components/modal.vue";
 import FacebookSvg from "@/assets/Facebook.svg";
-import WhatsAppSvg from "@/assets/WhatsApp.svg";
+import WhatsAppSvg from "@/assets/Whatsapp.svg";
 import TwitterSvg from "@/assets/Twitter.svg";
 import LinkSvg from "@/assets/Link.svg";
 import { notify } from "@/composables";
