@@ -21,11 +21,6 @@ export type Shout = {
   reactionSummary?: {
     [key in ReactionEnum]?: number;
   };
-  reactions?: {
-    id: string;
-    timestamp: Timestamp;
-    type: ReactionEnum;
-  }[];
   files?: string[];
 };
 

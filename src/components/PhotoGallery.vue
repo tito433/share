@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { notify } from "@/composables";
 import { computed, ref } from "vue";
+import ImageLoader from "@/components/ImageLoader.vue";
 
 const props = defineProps<{
   files?: string[];
@@ -25,7 +26,11 @@ const openPreview = () => {
         v-if="files.length === 1"
         class="photo-gallery__photos__item full-size"
       >
-        <img :src="files[0]" alt="Picture" />
+        <div class="aspect-wide">
+          <div class="aspect-wide__wrap">
+            <ImageLoader :src="files[0]" alt="Picture" />
+          </div>
+        </div>
       </div>
       <div
         v-else
@@ -35,7 +40,7 @@ const openPreview = () => {
       >
         <div class="aspect-wide">
           <div class="aspect-wide__wrap">
-            <img v-if="item" :src="item" alt="Picture" />
+            <ImageLoader :src="item" alt="Picture" />
             <div
               v-if="hasMoreImages && displayedImages.length - 1 == idx"
               class="photo-gallery__photos__blury__counter"

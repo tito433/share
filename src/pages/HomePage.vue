@@ -1,22 +1,19 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
-import { useRoute } from "vue-router";
 import {
   collection,
-  query,
-  orderBy,
-  limit,
-  startAfter,
   getDocs,
+  limit,
+  orderBy,
+  query,
+  startAfter,
 } from "firebase/firestore";
+import { onMounted, ref, watch } from "vue";
 
-import { db } from "@/firebase";
-import { newShoutCount } from "@/composables";
 import Loader from "@/components/Loader.vue";
 import Post from "@/components/Post.vue";
+import { newShoutCount } from "@/composables";
+import { db } from "@/firebase";
 import type { Shout } from "@/utils";
-
-const route = useRoute();
 
 const isBusy = ref(false);
 
@@ -46,20 +43,11 @@ const loadShoutsPage = async () => {
   const newShouts = [];
   for (const docSnap of snapshot.docs) {
     const shoutData = docSnap.data() as Record<string, any>;
-    const shoutId = docSnap.id;
-
-    const reactionsSnap = await getDocs(
-      collection(db, "shouts", shoutId, "reactions")
-    );
-    const reactions = reactionsSnap.docs.map((r) => ({
-      id: r.id,
-      ...r.data(),
-    }));
 
     newShouts.push({
-      id: shoutId,
+      id: docSnap.id,
       ...shoutData,
-      reactions,
+      // reactions,
     });
   }
 

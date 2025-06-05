@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import AngrySvg from "@/assets/Angry.svg";
-import HeartSvg from "@/assets/Heart.svg";
-import LikeSvg from "@/assets/Like.svg";
-import SadSvg from "@/assets/Sad.svg";
-import SmileSvg from "@/assets/Smile.svg";
 import UserSvg from "@/assets/User.svg";
-import WowSvg from "@/assets/Wow.svg";
 import PhotoGallery from "@/components/PhotoGallery.vue";
-import ReactBtn from "@/components/ReactBtn.vue";
+import ReactBtn from "@/components/reaction/ReactBtn.vue";
+import ReactionTop from "@/components/reaction/top.vue";
+import Skeleton from "@/components/skeleton/index.vue";
+import SkeletonItem from "@/components/skeleton/item.vue";
+
 import { useAuth } from "@/composables/useAuth";
+import { db } from "@/firebase";
 import type { Shout } from "@/utils";
 import { ReactionEnum } from "@/utils";
+import { collection, getDocs } from "firebase/firestore";
 import { format } from "timeago.js";
 import { computed, nextTick, onMounted, ref } from "vue";
 
@@ -21,9 +21,11 @@ const props = defineProps<{
 const { getUserName, userId } = useAuth();
 
 const postId = props.item.id;
+const reactions = ref([]);
+const loadingReaction = ref(false);
 const postReaction = computed(() => {
-  if (userId.value && props.item.reactions) {
-    const exist = props.item.reactions.find((r) => r.id === userId.value);
+  if (userId.value && reactions.value.length > 0) {
+    const exist = reactions.value.find((r) => r.id === userId.value);
     if (exist) {
       return exist.type;
     }
@@ -31,13 +33,14 @@ const postReaction = computed(() => {
   return null;
 });
 const totalReactions = computed(() => {
-  return props.item.reactions?.reduce((acc, r) => {
-    return acc + 1;
-  }, 0);
+  return (
+    reactions.value.reduce((acc, r) => {
+      return acc + 1;
+    }, 0) || 0
+  );
 });
 
 const topReactions = computed(() => {
-  const reactions = props.item.reactions;
   const countMap: Record<ReactionEnum, number> = {
     like: 0,
     haha: 0,
@@ -48,7 +51,7 @@ const topReactions = computed(() => {
     angry: 0,
   };
 
-  for (const { type } of reactions) {
+  for (const { type } of reactions.value) {
     countMap[type]++;
   }
 
@@ -74,7 +77,24 @@ const toggle = () => {
   isExpanded.value = !isExpanded.value;
 };
 
+const fetchReactions = async () => {
+  loadingReaction.value = true;
+  try {
+    const reactionsSnap = await getDocs(
+      collection(db, "shouts", postId, "reactions")
+    );
+    reactions.value = reactionsSnap.docs.map((r) => ({
+      id: r.id,
+      ...r.data(),
+    }));
+  } catch (error) {
+    console.error("Error fetching reactions:", error);
+  }
+  loadingReaction.value = false;
+};
+
 onMounted(() => {
+  fetchReactions();
   nextTick(checkTruncation);
   window.addEventListener("resize", checkTruncation);
 });
@@ -113,19 +133,16 @@ onMounted(() => {
       />
     </div>
     <div class="flex flex-center gap-1 summary">
-      <span v-if="totalReactions > 0" class="flex flex-center reactions-count">
-        <span>
-          <template v-for="(reaction, index) in topReactions" :key="index">
-            <LikeSvg v-if="reaction === ReactionEnum.Like" fill="#1E90FF" />
-            <SmileSvg v-else-if="reaction === ReactionEnum.Haha" />
-            <HeartSvg v-else-if="reaction === ReactionEnum.Love" />
-            <WowSvg v-else-if="reaction === ReactionEnum.Wow" />
-            <SadSvg v-else-if="reaction === ReactionEnum.Sad" />
-            <AngrySvg v-else-if="reaction === ReactionEnum.Angry" />
-          </template>
-        </span>
-        {{ totalReactions }}
-      </span>
+      <Skeleton :loading="loadingReaction">
+        <template #template>
+          <SkeletonItem variant="text" width="2rem" height="1.5rem" />
+        </template>
+        <ReactionTop
+          class="flex flex-center"
+          :total-reactions="totalReactions"
+          :top-reactions="topReactions"
+        />
+      </Skeleton>
     </div>
     <div class="border-top"></div>
     <div class="footer flex">
@@ -186,14 +203,6 @@ onMounted(() => {
   }
   .summary {
     padding-bottom: 0.25rem;
-    .reactions-count {
-      font-size: 1rem;
-      gap: 0.5rem;
-      svg {
-        width: 1rem;
-        height: 1rem;
-      }
-    }
   }
 
   .footer {
