@@ -2,7 +2,7 @@
 import { notify } from "@/composables";
 import { computed, ref } from "vue";
 import ImageLoader from "@/components/ImageLoader.vue";
-import Modal from "@/components/Modal.vue";
+import Modal from "@/components/modal.vue";
 import ImageSlider from "@/components/ImageSlider.vue";
 
 const open = ref(false);
