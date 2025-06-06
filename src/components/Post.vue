@@ -13,7 +13,7 @@ import { useAuth } from "@/composables/useAuth";
 import { db } from "@/firebase";
 import type { Reaction, Shout } from "@/utils";
 import { ReactionEnum } from "@/utils";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getCountFromServer, getDocs } from "firebase/firestore";
 import { format } from "timeago.js";
 import { computed, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
@@ -28,6 +28,9 @@ const router = useRouter();
 const postId = props.item.id;
 const reactions = ref<Reaction[]>([]);
 const loadingReaction = ref(false);
+const loadingCommentsCount = ref(false);
+const commentsCount = ref(0);
+
 const postReaction = computed(() => {
   if (userId.value && reactions.value.length > 0) {
     const exist = reactions.value.find((r) => r.id === userId.value);
@@ -83,11 +86,28 @@ const fetchReactions = async () => {
   loadingReaction.value = false;
 };
 
+const fetchCommentsCount = async () => {
+  if (!postId) {
+    commentsCount.value = 0;
+    return 0;
+  }
+  loadingCommentsCount.value = true;
+  const commentsRef = collection(db, "shouts", postId, "comments");
+  const snapshot = await getCountFromServer(commentsRef);
+  commentsCount.value = snapshot.data().count;
+  loadingCommentsCount.value = false;
+};
+
 function goToStory() {
   router.push("/story/" + postId);
 }
 
-onMounted(fetchReactions);
+const initLoad = () => {
+  fetchReactions();
+  fetchCommentsCount();
+};
+
+onMounted(initLoad);
 </script>
 <template>
   <div class="app-card flex flex-col gap-2">
@@ -111,16 +131,24 @@ onMounted(fetchReactions);
         :files="item.files"
       />
     </div>
-    <div class="flex flex-center gap-1">
+    <div class="flex items-center gap-2 justify-between">
       <Skeleton :loading="loadingReaction">
         <template #template>
           <SkeletonItem variant="text" width="2rem" height="1.5rem" />
         </template>
         <ReactionTop
-          class="flex flex-center"
+          class="flex items-center text-base"
           :total-reactions="totalReactions"
           :top-reactions="topReactions"
         />
+      </Skeleton>
+      <Skeleton :loading="loadingCommentsCount">
+        <template #template>
+          <SkeletonItem variant="text" width="4rem" />
+        </template>
+        <div v-if="commentsCount > 0" class="text-base">
+          {{ commentsCount }} comment{{ commentsCount > 1 ? "s" : "" }}
+        </div>
       </Skeleton>
     </div>
     <div class="border-top"></div>

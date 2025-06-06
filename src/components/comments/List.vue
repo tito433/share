@@ -62,12 +62,12 @@ const getComments = async () => {
 onMounted(getComments);
 </script>
 <template>
-  <div v-if="comments.length > 0" class="comment-list flex flex-col gap-1">
+  <div v-if="comments.length > 0" class="comment-list flex flex-col gap-4">
     <div class="border-top"></div>
     <div
       v-for="comment in comments"
       :key="comment.id"
-      class="comment-item flex"
+      class="comment-item items-center flex"
     >
       <UserSvg class="icon" width="2.5rem" height="2.5rem" />
       <div class="comment-item-body bg-2 flex flex-col flex-grow">
@@ -80,7 +80,7 @@ onMounted(getComments);
         <div class="content">
           {{ comment.content }}
         </div>
-        <div v-if="comment.replies.length > 0" class="replies">
+        <div v-if="comment?.replies?.length ?? 0 > 0" class="replies">
           <CommentList :comments="comment.replies" />
         </div>
       </div>
@@ -89,7 +89,6 @@ onMounted(getComments);
 </template>
 <style scoped lang="scss">
 .comment-list {
-  padding-top: 0.5rem;
   .comment-item {
     gap: 0.5rem;
     .icon {
