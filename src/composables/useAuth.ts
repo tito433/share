@@ -12,9 +12,9 @@ export const currentUser = ref<User | null>(null);
 const uid = computed(() => currentUser.value?.uid);
 const userName = computed(() => getUserName(uid.value));
 
-const getUserName = (user: string | undefined | null): string | null => {
+const getUserName = (user: string | undefined | null): string => {
   if (user) return "Bhai " + user.slice(-3);
-  return null;
+  return "Bhai Anon";
 };
 
 onAuthStateChanged(auth, (user) => {

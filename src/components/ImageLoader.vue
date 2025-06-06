@@ -1,9 +1,6 @@
 <template>
   <div class="relative w-full h-full overflow-hidden">
-    <div
-      v-if="!loaded"
-      class="absolute w-full h-full animate-shimmer rounded"
-    />
+    <div v-if="!loaded" class="absolute w-full h-full shimmer rounded" />
     <img
       :src="src"
       :alt="alt"

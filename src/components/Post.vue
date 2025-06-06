@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import BtnShare from "@/components/BtnShare.vue";
 import PhotoGallery from "@/components/PhotoGallery.vue";
-import User from "@/components/UserTimestamp.vue";
+import UserSvg from "@/assets/User.svg";
+
 import ReactBtn from "@/components/reaction/ReactBtn.vue";
 import ReactionTop from "@/components/reaction/top.vue";
 import Skeleton from "@/components/skeleton/index.vue";
+import TextTrim from "@/components/TextTrim.vue";
 import SkeletonItem from "@/components/skeleton/item.vue";
 
 import { useAuth } from "@/composables/useAuth";
@@ -14,6 +16,7 @@ import { ReactionEnum } from "@/utils";
 import { collection, getDocs } from "firebase/firestore";
 import { computed, nextTick, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
+import { format } from "timeago.js";
 
 const props = defineProps<{
   item: Shout;
@@ -106,28 +109,20 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div class="post">
-    <div class="head">
-      <User
-        :user="getUserName(item.userId)"
-        :timestamp="new Date(item.timestamp.seconds * 1000)"
-      />
+  <div class="app-card flex flex-col gap-2">
+    <div class="flex gap-2">
+      <UserSvg width="40" height="40" class="app-fill" />
+      <div class="flex flex-col gap-1">
+        <span class="text-lg font-medium">{{ getUserName(item.userId) }}</span>
+        <i class="text-xs">
+          {{ format(new Date(item.timestamp.seconds * 1000)) }}</i
+        >
+      </div>
     </div>
-    <div class="body flex flex-col gap-1">
+
+    <div class="flex flex-col gap-1">
       <div>
-        <div
-          ref="textRef"
-          :class="['text-container', { expanded: isExpanded }]"
-        >
-          {{ item.text }}
-        </div>
-        <button
-          v-if="isTruncatable && !isExpanded"
-          @click="toggle"
-          class="readmore"
-        >
-          আরও পড়ুন
-        </button>
+        <TextTrim :text="item.text" />
       </div>
 
       <PhotoGallery
@@ -135,7 +130,7 @@ onMounted(() => {
         :files="item.files"
       />
     </div>
-    <div class="flex flex-center gap-1 summary">
+    <div class="flex flex-center gap-1">
       <Skeleton :loading="loadingReaction">
         <template #template>
           <SkeletonItem variant="text" width="2rem" height="1.5rem" />
@@ -148,9 +143,9 @@ onMounted(() => {
       </Skeleton>
     </div>
     <div class="border-top"></div>
-    <div class="footer flex justify-between">
+    <div class="flex justify-between">
       <ReactBtn :post-id="postId" :value="postReaction" />
-      <button class="flex" @click="goToStory">
+      <button class="flex app-primary" @click="goToStory">
         <svg
           width="18"
           height="18"
@@ -176,56 +171,3 @@ onMounted(() => {
     <slot name="append"></slot>
   </div>
 </template>
-<style scoped lang="scss">
-.post {
-  background: var(--app-post-bg-color);
-  gap: 1rem;
-  border-radius: var(--app-border-radius);
-  padding: 1rem;
-
-  .head {
-    gap: 1rem;
-    align-items: center;
-  }
-  .body {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    .text-container {
-      display: -webkit-box;
-      -webkit-line-clamp: 6;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      white-space: pre-line;
-    }
-
-    .text-container.expanded {
-      -webkit-line-clamp: unset;
-      overflow: visible;
-    }
-    .readmore {
-      color: var(--app-primary-color);
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      margin-top: 0.5rem;
-      padding-left: 0;
-    }
-  }
-  .summary {
-    padding-bottom: 0.25rem;
-  }
-
-  .footer {
-    padding-top: 0.5rem;
-    button {
-      background-color: transparent;
-      border: none;
-      gap: 0.5rem;
-      stroke: var(--app-primary-color);
-      fill: var(--app-primary-color);
-      color: var(--app-primary-color);
-    }
-  }
-}
-</style>

@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -140,6 +144,26 @@ button {
   color: #f8312f
 }
 
+.text-primary {
+  color: var(--app-primary-color)
+}
+
+.app-card {
+  background-color: var(--app-post-bg-color);
+  border-radius: var(--app-border-radius);
+  padding: var(--app-padding);
+}
+
+.app-fill {
+  fill: var(--app-text-color)
+}
+
+.app-primary {
+  fill: var(--app-primary-color);
+  stroke: var(--app-primary-color);
+  color: var(--app-primary-color);
+}
+
 @keyframes slide-in-left {
   0% {
     transform: translateX(-100%);
@@ -189,23 +213,25 @@ button {
   }
 }
 
-.skeleton {
-  background-color: #e0e0e0;
-  overflow: hidden;
-  border-radius: 4px;
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
 
-.skeleton::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -150px;
-  height: 100%;
-  width: 150px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-  animation: loading 1.2s infinite;
-  z-index: 1;
+.shimmer {
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      rgba(255, 255, 255, 0) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
 }
+
 
 @keyframes loading {
   0% {
@@ -233,5 +259,12 @@ button {
     --app-input-bg-color: rgba(0, 0, 0, 0.1);
     --app-border-color: rgb(0 0 0 / 20%);
     --app-comment-bg-color: #d9d9d9;
+  }
+
+  .shimmer {
+    background: linear-gradient(90deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.07) 50%,
+        rgba(0, 0, 0, 0) 100%);
   }
 }

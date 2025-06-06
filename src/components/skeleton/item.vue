@@ -1,6 +1,6 @@
 <template>
   <div
-    class="animate-shimmer"
+    class="shimmer"
     :class="`skeleton-${variant}`"
     :style="{ width, height, borderRadius }"
   />

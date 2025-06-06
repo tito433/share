@@ -8,6 +8,7 @@ import { db } from "@/firebase";
 import Post from "@/components/Post.vue";
 import CommentAdd from "@/components/comments/Add.vue";
 import CommentList from "@/components/comments/List.vue";
+import Box404 from "@/components/Box404.vue";
 import { notify } from "@/composables";
 
 const route = useRoute();
@@ -59,6 +60,7 @@ onMounted(loadStory);
         class="post-add-comment z-10"
       />
     </template>
+    <Box404 v-else />
   </template>
 </template>
 <style scoped lang="scss">

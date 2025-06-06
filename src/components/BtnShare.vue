@@ -15,7 +15,7 @@ const shareUrl = computed(() =>
 const open = ref(false);
 const shareText = encodeURIComponent(document.title || "Check this out!");
 
-function shareTo(platform) {
+function shareTo(platform: string) {
   let url = "";
 
   switch (platform) {
