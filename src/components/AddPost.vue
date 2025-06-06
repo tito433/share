@@ -54,7 +54,7 @@ const handleFileChange = (value: string[]) => {
 };
 </script>
 <template>
-  <section class="post-add flex flex-col flex-center">
+  <section class="post-add flex flex-col items-center">
     <div v-if="isOpen" class="post-add__form flex flex-col">
       <div class="header p-4 flex">
         <div class="flex flex-grow items-center gap-1">
@@ -93,8 +93,8 @@ const handleFileChange = (value: string[]) => {
         <PhotoUploader @change="handleFileChange" />
       </div>
     </div>
-    <div class="post-add__ctrl flex-center">
-      <button class="btn btn__primary" @click="isOpen = true">
+    <div class="post-add__ctrl items-center">
+      <button class="btn btn__primary circle" @click="isOpen = true">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"

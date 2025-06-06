@@ -159,7 +159,7 @@ watch(
     </button>
 
     <div v-if="showReactions" class="reaction-panel">
-      <div class="wrap flex flex-center">
+      <div class="wrap flex items-center">
         <button @click="onReact(ReactionEnum.Like)">
           <LikeSvg width="20" height="20" fill="#1E90FF" />
         </button>

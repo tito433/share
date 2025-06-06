@@ -56,7 +56,7 @@ const addComment = async () => {
 };
 </script>
 <template>
-  <div class="comment-add flex gap-2 items-center">
+  <div class="comment-add flex z-30 gap-2 items-center">
     <UserSvg class="user" width="48" height="48" />
     <div class="flex flex-grow">
       <textarea
@@ -76,7 +76,6 @@ const addComment = async () => {
   display: flex;
   gap: 1rem;
   padding: 1rem;
-  background-color: var(--app-bg-color);
   svg.user {
     width: 2.5rem;
     height: 2.5rem;
@@ -94,13 +93,14 @@ const addComment = async () => {
     background-color: var(--app-input-bg-color);
     overflow-y: hidden;
   }
+
   button {
     padding: 0 1rem;
-    background-color: var(--app-primary-color);
     border: none;
     cursor: pointer;
+    background-color: var(--app-primary-color);
     svg {
-      fill: white;
+      fill: var(--app-secondary-color);
     }
   }
 }
