@@ -1,22 +1,22 @@
 <script setup lang="ts">
+import UserSvg from "@/assets/User.svg";
 import BtnShare from "@/components/BtnShare.vue";
 import PhotoGallery from "@/components/PhotoGallery.vue";
-import UserSvg from "@/assets/User.svg";
 
+import TextTrim from "@/components/TextTrim.vue";
 import ReactBtn from "@/components/reaction/ReactBtn.vue";
 import ReactionTop from "@/components/reaction/top.vue";
 import Skeleton from "@/components/skeleton/index.vue";
-import TextTrim from "@/components/TextTrim.vue";
 import SkeletonItem from "@/components/skeleton/item.vue";
 
 import { useAuth } from "@/composables/useAuth";
 import { db } from "@/firebase";
-import type { Shout } from "@/utils";
+import type { Reaction, Shout } from "@/utils";
 import { ReactionEnum } from "@/utils";
 import { collection, getDocs } from "firebase/firestore";
-import { computed, nextTick, onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
 import { format } from "timeago.js";
+import { computed, onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 
 const props = defineProps<{
   item: Shout;
@@ -26,7 +26,7 @@ const { getUserName, userId } = useAuth();
 const router = useRouter();
 
 const postId = props.item.id;
-const reactions = ref([]);
+const reactions = ref<Reaction[]>([]);
 const loadingReaction = ref(false);
 const postReaction = computed(() => {
   if (userId.value && reactions.value.length > 0) {
@@ -67,31 +67,16 @@ const topReactions = computed(() => {
     .map(([type]) => type as ReactionEnum);
 });
 
-const textRef = ref(null);
-const isTruncatable = ref(false);
-const isExpanded = ref(false);
-
-const checkTruncation = () => {
-  const el = textRef.value;
-  if (el) {
-    isTruncatable.value = el.scrollHeight > el.clientHeight;
-  }
-};
-
-const toggle = () => {
-  isExpanded.value = !isExpanded.value;
-};
-
 const fetchReactions = async () => {
   loadingReaction.value = true;
   try {
     const reactionsSnap = await getDocs(
       collection(db, "shouts", postId, "reactions")
     );
-    reactions.value = reactionsSnap.docs.map((r) => ({
-      id: r.id,
-      ...r.data(),
-    }));
+    reactions.value = reactionsSnap.docs.map((r) => {
+      const { type, timestamp } = r.data();
+      return { type: type as ReactionEnum, timestamp };
+    });
   } catch (error) {
     console.error("Error fetching reactions:", error);
   }
@@ -102,11 +87,7 @@ function goToStory() {
   router.push("/story/" + postId);
 }
 
-onMounted(() => {
-  fetchReactions();
-  nextTick(checkTruncation);
-  window.addEventListener("resize", checkTruncation);
-});
+onMounted(fetchReactions);
 </script>
 <template>
   <div class="app-card flex flex-col gap-2">

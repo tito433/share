@@ -56,8 +56,8 @@ const handleFileChange = (value: string[]) => {
 <template>
   <section class="post-add flex flex-col flex-center">
     <div v-if="isOpen" class="post-add__form flex flex-col">
-      <div class="header">
-        <div class="flex flex-center gap-1">
+      <div class="header p-4 flex">
+        <div class="flex flex-grow items-center gap-1">
           <button class="btn" @click="handleClose">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +70,7 @@ const handleFileChange = (value: string[]) => {
               />
             </svg>
           </button>
-          <h2>নতুন পোস্ট</h2>
+          <h1 class="text-lg">নতুন পোস্ট</h1>
         </div>
         <Btn
           @click="sendShout"
@@ -121,15 +121,6 @@ const handleFileChange = (value: string[]) => {
     z-index: 1000;
     .header {
       background-color: var(--app-header-color);
-      display: flex;
-      padding: var(--app-gap);
-      justify-content: space-between;
-      align-items: center;
-      h2 {
-        color: var(--app-text-color);
-        font-size: 1.334rem;
-        margin: 0;
-      }
       .btn {
         width: 3rem;
         height: 3rem;

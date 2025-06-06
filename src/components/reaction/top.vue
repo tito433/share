@@ -1,16 +1,39 @@
 <template>
-  <div v-if="totalReactions > 0" class="reactions-count">
-    <span>
-      <template v-for="(reaction, index) in topReactions" :key="index">
-        <LikeSvg v-if="reaction === ReactionEnum.Like" fill="#1E90FF" />
-        <SmileSvg v-else-if="reaction === ReactionEnum.Haha" />
-        <HeartSvg v-else-if="reaction === ReactionEnum.Love" />
-        <WowSvg v-else-if="reaction === ReactionEnum.Wow" />
-        <SadSvg v-else-if="reaction === ReactionEnum.Sad" />
-        <AngrySvg v-else-if="reaction === ReactionEnum.Angry" />
-      </template>
-    </span>
-    {{ totalReactions }}
+  <div v-if="totalReactions > 0" class="flex gap-1 items-center">
+    <template v-for="(reaction, index) in topReactions" :key="index">
+      <LikeSvg
+        v-if="reaction === ReactionEnum.Like"
+        fill="#1E90FF"
+        width="16"
+        height="16"
+      />
+      <SmileSvg
+        v-else-if="reaction === ReactionEnum.Haha"
+        width="16"
+        height="16"
+      />
+      <HeartSvg
+        v-else-if="reaction === ReactionEnum.Love"
+        width="16"
+        height="16"
+      />
+      <WowSvg
+        v-else-if="reaction === ReactionEnum.Wow"
+        width="16"
+        height="16"
+      />
+      <SadSvg
+        v-else-if="reaction === ReactionEnum.Sad"
+        width="16"
+        height="16"
+      />
+      <AngrySvg
+        v-else-if="reaction === ReactionEnum.Angry"
+        width="16"
+        height="16"
+      />
+    </template>
+    <span class="ml-2 text-base">{{ totalReactions }}</span>
   </div>
 </template>
 <script setup lang="ts">
@@ -27,13 +50,3 @@ defineProps<{
   topReactions: string[];
 }>();
 </script>
-<style scoped lang="scss">
-.reactions-count {
-  font-size: 1rem;
-  gap: 0.5rem;
-  svg {
-    width: 1rem;
-    height: 1rem;
-  }
-}
-</style>

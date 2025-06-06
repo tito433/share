@@ -13,6 +13,11 @@ export type Timestamp = {
   seconds: number;
 };
 
+export type Reaction = {
+  type: ReactionEnum;
+  timestamp: Timestamp;
+};
+
 export type Shout = {
   id: string;
   text: string;

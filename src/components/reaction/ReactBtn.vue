@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { doc, increment, runTransaction } from "firebase/firestore";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 
 import { db } from "@/firebase";
 
@@ -10,7 +10,7 @@ import LikeSvg from "@/assets/Like.svg";
 import SadSvg from "@/assets/Sad.svg";
 import SmileSvg from "@/assets/Smile.svg";
 import WowSvg from "@/assets/Wow.svg";
-import { useAuth } from "@/composables";
+import { notify, useAuth } from "@/composables";
 import { ReactionEnum } from "@/utils";
 import { watch } from "vue";
 
@@ -23,7 +23,6 @@ const { currentUser, signInAnonymously } = useAuth();
 const showReactions = ref(false);
 const holdTimeout = ref(null);
 const currValue = ref(props.value || null);
-const userId = computed(() => currentUser.value?.uid);
 
 const showReactionsDesktop = () => {
   if (!isTouchDevice()) {
@@ -60,12 +59,20 @@ function isTouchDevice() {
 const addOrUpdateReaction = async (newReaction: ReactionEnum) => {
   const shoutId = props.postId;
 
-  if (!userId.value) {
+  if (!currentUser.value) {
     await signInAnonymously();
+  }
+  if (!currentUser.value) {
+    notify("User not authenticated", "error");
+    return;
   }
 
   const shoutRef = doc(db, "shouts", shoutId);
-  const userReactionRef = doc(db, `shouts/${shoutId}/reactions`, userId.value);
+  const userReactionRef = doc(
+    db,
+    `shouts/${shoutId}/reactions`,
+    currentUser.value.uid
+  );
 
   await runTransaction(db, async (transaction) => {
     const userReactionSnap = await transaction.get(userReactionRef);
@@ -108,7 +115,7 @@ const addOrUpdateReaction = async (newReaction: ReactionEnum) => {
 watch(
   () => props.value,
   (newValue) => {
-    currValue.value = newValue;
+    if (newValue) currValue.value = newValue;
   },
   { immediate: true }
 );

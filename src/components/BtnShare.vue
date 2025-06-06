@@ -9,24 +9,25 @@ import { notify } from "@/composables";
 
 const props = defineProps<{ postId: string }>();
 
-const shareUrl = computed(() =>
-  encodeURIComponent(`${window.location.origin}/story/${props.postId}`)
+const shareUrl = computed(
+  () => `${window.location.origin}/story/${props.postId}`
 );
 const open = ref(false);
 const shareText = encodeURIComponent(document.title || "Check this out!");
 
 function shareTo(platform: string) {
   let url = "";
+  const encodedUrl = encodeURIComponent(shareUrl.value);
 
   switch (platform) {
     case "facebook":
-      url = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl.value}`;
+      url = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
       break;
     case "whatsapp":
-      url = `https://wa.me/?text=${shareText}%20${shareUrl.value}`;
+      url = `https://wa.me/?text=${shareText}%20${encodedUrl}`;
       break;
     case "twitter":
-      url = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl.value}`;
+      url = `https://twitter.com/intent/tweet?text=${shareText}&url=${encodedUrl}`;
       break;
     case "copy":
       navigator.clipboard
@@ -60,39 +61,30 @@ function shareTo(platform: string) {
     </button>
 
     <Modal :show="open" @close="open = false">
-      <div class="share-content rounded-lg shadow-lg w-80 p-4 relative bg-2">
-        <div class="flex flex-col">
-          <h2 class="m-0 text-center">Share to</h2>
-          <div class="border-top mb-4"></div>
-          <ul class="list-style-none flex flex-col gap-1 m-0 p-0">
-            <li>
-              <button
-                @click="shareTo('facebook')"
-                class="flex gap-1 w-full text-left"
-              >
-                <FacebookSvg width="1.5rem" height="1.5rem" />
-                Facebook
-              </button>
-            </li>
-            <li>
-              <button @click="shareTo('whatsapp')" class="w-full text-left">
-                <WhatsAppSvg width="1.5rem" height="1.5rem" />
-                WhatsApp
-              </button>
-            </li>
-            <li>
-              <button @click="shareTo('twitter')" class="w-full text-left">
-                <TwitterSvg width="1.5rem" height="1.5rem" />
-                Twitter
-              </button>
-            </li>
-            <li>
-              <button @click="shareTo('copy')" class="w-full text-left">
-                <LinkSvg width="1.5rem" height="1.5rem" />
-                Copy Link
-              </button>
-            </li>
-          </ul>
+      <div class="rounded-lg shadow-lg w-full p-4 relative bg-2">
+        <div class="flex flex-col gap-2">
+          <h2 class="m-0 text-xl text-center">Share to</h2>
+          <div class="border-top"></div>
+          <div class="flex gap-4 text-base">
+            <button @click="shareTo('facebook')" class="flex gap-2 w-full p-4">
+              <FacebookSvg width="1.5rem" height="1.5rem" />
+              Facebook
+            </button>
+            <button @click="shareTo('whatsapp')" class="flex gap-2 w-full p-4">
+              <WhatsAppSvg width="1.5rem" height="1.5rem" />
+              WhatsApp
+            </button>
+          </div>
+          <div class="flex gap-4">
+            <button @click="shareTo('twitter')" class="flex gap-2 w-full p-4">
+              <TwitterSvg width="1.5rem" height="1.5rem" />
+              Twitter
+            </button>
+            <button @click="shareTo('copy')" class="flex gap-2 w-full p-4">
+              <LinkSvg width="1.5rem" height="1.5rem" />
+              Copy Link
+            </button>
+          </div>
         </div>
       </div>
     </Modal>

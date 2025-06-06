@@ -2,7 +2,7 @@
   <teleport to="body">
     <div
       v-if="show"
-      class="modal fixed inset-0 z-50 flex items-center justify-center"
+      class="modal fixed inset-0 z-30 flex items-center justify-center"
     >
       <div class="absolute backrdop w-full h-full" @click="close"></div>
       <button @click="close" class="absolute btn-close">
@@ -62,16 +62,14 @@ onBeforeUnmount(() => {
   .backrdop {
     background-color: var(--app-bg-color);
   }
-  button {
-    padding: 0.5rem;
+  button.btn-close {
     border: none;
     outline: none;
-    &.btn-close {
-      border-radius: 50%;
-      top: 1rem;
-      left: 1rem;
-      fill: var(--app-primary-text-color);
-    }
+    padding: 0.5rem;
+    border-radius: 50%;
+    top: 1rem;
+    left: 1rem;
+    fill: var(--app-primary-text-color);
   }
 }
 </style>

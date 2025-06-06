@@ -62,8 +62,8 @@ const getComments = async () => {
 onMounted(getComments);
 </script>
 <template>
-  <div class="comment-list flex flex-col gap-1">
-    <div v-if="comments.length > 0" class="border-top"></div>
+  <div v-if="comments.length > 0" class="comment-list flex flex-col gap-1">
+    <div class="border-top"></div>
     <div
       v-for="comment in comments"
       :key="comment.id"
