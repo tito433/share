@@ -130,6 +130,11 @@ const handleFileChange = (value: string[]) => {
     .body {
       gap: var(--app-gap);
       padding: var(--app-gap);
+      background-color: var(--app-bg-color);
+      position: fixed;
+      top: 5rem;
+      left: 0;
+      right: 0;
       textarea {
         flex-grow: 1;
         border: none;
