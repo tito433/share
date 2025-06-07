@@ -1,11 +1,41 @@
 <script setup lang="ts">
-import { useAuth } from "@/composables/useAuth";
 import AddPost from "@/components/AddPost.vue";
+import { ref, onMounted, onUnmounted } from "vue";
 
-const { currentUser } = useAuth();
+const isVisible = ref(true);
+let lastScroll = window.scrollY;
+
+const handleScroll = () => {
+  const currentScroll = window.scrollY;
+
+  if (currentScroll > lastScroll && currentScroll > 50) {
+    // Scrolling down → hide header
+    isVisible.value = false;
+  } else if (currentScroll < lastScroll) {
+    // Scrolling up → show header
+    isVisible.value = true;
+  }
+
+  lastScroll = currentScroll;
+};
+
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll, { passive: true });
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
+});
 </script>
 <template>
-  <header>
+  <header
+    :class="[
+      'w-full bg-white shadow transition-transform duration-300 z-50',
+      isVisible
+        ? 'fixed top-0 translate-y-0'
+        : 'fixed -top-16 -translate-y-full',
+    ]"
+  >
     <router-link class="brand" :to="{ name: 'home' }">
       <svg
         class="logo"

@@ -10,6 +10,6 @@ import AppFooter from "@/components/AppFooter.vue";
 </script>
 <style scoped lang="scss">
 main {
-  padding: 1rem;
+  padding: 6rem 1rem 1rem;
 }
 </style>

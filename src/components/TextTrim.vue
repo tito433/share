@@ -36,6 +36,6 @@ onMounted(() => {
     @click="toggle"
     class="app-primary mt-2"
   >
-    আরও পড়ুন
+    Read more
   </button>
 </template>

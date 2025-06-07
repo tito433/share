@@ -113,7 +113,7 @@ onMounted(initLoad);
   <div class="app-card flex flex-col gap-2">
     <div class="flex gap-2">
       <UserSvg width="40" height="40" class="app-fill" />
-      <div class="flex flex-col gap-1">
+      <div class="flex flex-col">
         <span class="text-lg font-medium">{{ getUserName(item.userId) }}</span>
         <i class="text-xs">
           {{ format(new Date(item.timestamp.seconds * 1000)) }}</i
@@ -131,7 +131,7 @@ onMounted(initLoad);
         :files="item.files"
       />
     </div>
-    <div class="flex items-center gap-2 justify-between">
+    <div class="flex items-center gap-2">
       <Skeleton :loading="loadingReaction">
         <template #template>
           <SkeletonItem variant="text" width="2rem" height="1.5rem" />
@@ -146,7 +146,7 @@ onMounted(initLoad);
         <template #template>
           <SkeletonItem variant="text" width="4rem" />
         </template>
-        <div v-if="commentsCount > 0" class="text-base">
+        <div v-if="commentsCount > 0" class="text-base ml-auto">
           {{ commentsCount }} comment{{ commentsCount > 1 ? "s" : "" }}
         </div>
       </Skeleton>

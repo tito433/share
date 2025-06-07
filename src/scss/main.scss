@@ -20,7 +20,7 @@
 
   --app-bg-color: rgba(0, 0, 0);
   --app-text-color: rgba(255, 255, 255, 0.67);
-  --app-border-radius: 0.25rem;
+  --app-border-radius: 0.5rem;
   --app-gap: 1rem;
   --app-padding: 1rem;
   --app-primary-color: white;
@@ -28,11 +28,11 @@
   --app-primary-color-hover: #1C86EE;
   --app-primary-text-color: white;
   --app-primary-text-size: 1.125rem;
-  --app-container-max-width: 75rem;
+  --app-container-max-width: 50rem;
   --app-border-color: rgb(255 255 255 / 10%);
-  --app-header-color: rgba(255, 255, 255, 0.1);
-  --app-post-bg-color: rgba(255, 255, 255, 0.1);
-  --app-input-bg-color: rgba(255, 255, 255, 0.1);
+  --app-header-color: rgb(26, 26, 26);
+  --app-post-bg-color: rgb(26, 26, 26);
+  --app-input-bg-color: rgb(26, 26, 26);
   --app-comment-bg-color: #333;
 }
 
@@ -92,7 +92,7 @@ button {
 
   &.circle {
     border-radius: 50%;
-    border: 1px solid var(--app-primary-text-color);
+    border: 2px solid var(--app-primary-text-color);
   }
 }
 
@@ -201,7 +201,7 @@ button {
   position: relative;
   width: 100%;
   max-width: 60rem; // Or any desired limit
-  padding-bottom: 46.25%;
+  padding-bottom: 56.25%;
   height: 0;
 
   &__wrap {
@@ -227,7 +227,7 @@ button {
 .shimmer {
   background: linear-gradient(90deg,
       rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.4) 50%,
+      rgba(255, 255, 255, 0.1) 50%,
       rgba(255, 255, 255, 0) 100%);
   background-size: 200% 100%;
   animation: shimmer 2s infinite;
@@ -248,26 +248,26 @@ button {
   background-color: var(--app-comment-bg-color);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --app-secondary-color: white;
-    --app-primary-color: black;
-    color: #213547;
-    background-color: var(--app-secondary-color);
-    --app-bg-color: var(--app-secondary-color);
-    --app-text-color: var(--app-primary-color);
-    --app-primary-text-color: var(--app-text-color);
-    --app-header-color: rgba(0, 0, 0, 0.1);
-    --app-post-bg-color: rgba(0, 0, 0, 0.1);
-    --app-input-bg-color: rgba(0, 0, 0, 0.1);
-    --app-border-color: rgb(0 0 0 / 20%);
-    --app-comment-bg-color: #d9d9d9;
-  }
+// @media (prefers-color-scheme: light) {
+//   :root {
+//     --app-secondary-color: white;
+//     --app-primary-color: black;
+//     color: #213547;
+//     background-color: var(--app-secondary-color);
+//     --app-bg-color: var(--app-secondary-color);
+//     --app-text-color: var(--app-primary-color);
+//     --app-primary-text-color: var(--app-text-color);
+//     --app-header-color: rgba(0, 0, 0, 0.1);
+//     --app-post-bg-color: rgba(0, 0, 0, 0.1);
+//     --app-input-bg-color: rgba(0, 0, 0, 0.1);
+//     --app-border-color: rgb(0 0 0 / 20%);
+//     --app-comment-bg-color: #d9d9d9;
+//   }
 
-  .shimmer {
-    background: linear-gradient(90deg,
-        rgba(0, 0, 0, 0) 0%,
-        rgba(0, 0, 0, 0.07) 50%,
-        rgba(0, 0, 0, 0) 100%);
-  }
-}
+//   .shimmer {
+//     background: linear-gradient(90deg,
+//         rgba(0, 0, 0, 0) 0%,
+//         rgba(0, 0, 0, 0.07) 50%,
+//         rgba(0, 0, 0, 0) 100%);
+//   }
+// }

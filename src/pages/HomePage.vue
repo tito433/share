@@ -76,38 +76,14 @@ onMounted(loadStories);
 watch(newShoutCount, resetPagination);
 </script>
 <template>
-  <div class="masonry">
-    <PostSkeleton
-      v-if="isBusy"
-      v-for="i in 3"
-      :key="i"
-      class="masonry-item"
-      :loading="isBusy"
-    />
-
+  <div class="flex flex-col gap-4 container">
+    <PostSkeleton v-if="isBusy" v-for="i in 3" :key="i" :loading="isBusy" />
     <Post
       v-else
       v-for="item in shouts"
       :key="item.id"
       :item="item"
-      class="app-card masonry-item"
+      class="app-card"
     />
   </div>
 </template>
-<style scoped lang="scss">
-.masonry {
-  column-count: 2;
-  column-gap: 1rem;
-}
-
-.masonry-item {
-  break-inside: avoid;
-  margin-bottom: 1rem;
-}
-
-@media (max-width: 600px) {
-  .masonry {
-    column-count: 1;
-  }
-}
-</style>

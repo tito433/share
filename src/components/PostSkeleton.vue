@@ -24,35 +24,37 @@ function getWidth() {
 }
 </script>
 <template>
-  <Skeleton loading class="app-card flex flex-col gap-1">
-    <template #template>
-      <div class="flex flex-col gap-2">
-        <div class="flex gap-2">
-          <UserSvg width="2.5rem" height="2.5rem" class="app-fill" />
-          <div class="flex flex-col flex-grow gap-1">
-            <SkeletonItem variant="text" :class="getWidth()" height="1.25rem" />
-            <SkeletonItem variant="text" width="5rem" height=".5rem" />
+  <div class="app-card flex flex-col flex-grow gap-1">
+    <Skeleton loading>
+      <template #template>
+        <div class="flex flex-col gap-2">
+          <div class="flex gap-2">
+            <UserSvg width="2.5rem" height="2.5rem" class="app-fill" />
+            <div class="flex flex-col flex-grow gap-2">
+              <SkeletonItem variant="text" width="4.5rem" height="1.5rem" />
+              <SkeletonItem variant="text" width="4.5rem" height=".5rem" />
+            </div>
+          </div>
+          <div class="flex flex-col gap-3">
+            <SkeletonItem
+              v-for="x in getRandom(2, 5)"
+              variant="text"
+              class="w-full"
+            />
+            <SkeletonItem variant="text" :class="getWidth()" />
+          </div>
+          <div class="flex justify-between">
+            <SkeletonItem variant="text" width="2.5rem" />
+            <SkeletonItem variant="text" width="5rem" />
+          </div>
+          <div class="border-top"></div>
+          <div class="flex justify-between">
+            <SkeletonItem variant="text" width="5rem" height="1.688rem" />
+            <SkeletonItem variant="text" width="5rem" height="1.688rem" />
+            <SkeletonItem variant="text" width="5rem" height="1.688rem" />
           </div>
         </div>
-        <div class="flex flex-col gap-3">
-          <SkeletonItem
-            v-for="x in getRandom(2, 5)"
-            variant="text"
-            class="w-full"
-          />
-          <SkeletonItem variant="text" :class="getWidth()" />
-        </div>
-        <div class="flex justify-between">
-          <SkeletonItem variant="text" width="2.5rem" />
-          <SkeletonItem variant="text" width="5rem" />
-        </div>
-        <div class="border-top"></div>
-        <div class="flex justify-between">
-          <SkeletonItem variant="text" width="5rem" height="1.688rem" />
-          <SkeletonItem variant="text" width="5rem" height="1.688rem" />
-          <SkeletonItem variant="text" width="5rem" height="1.688rem" />
-        </div>
-      </div>
-    </template>
-  </Skeleton>
+      </template>
+    </Skeleton>
+  </div>
 </template>

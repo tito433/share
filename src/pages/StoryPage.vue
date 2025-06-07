@@ -10,6 +10,7 @@ import CommentAdd from "@/components/comments/Add.vue";
 import CommentList from "@/components/comments/List.vue";
 import Box404 from "@/components/Box404.vue";
 import { notify } from "@/composables";
+import PostSkeleton from "@/components/PostSkeleton.vue";
 
 const route = useRoute();
 const id = route.params.id;
@@ -46,22 +47,24 @@ const handleCommentAdd = () => {
 onMounted(loadStory);
 </script>
 <template>
-  <Loader v-if="isBusy" />
-  <template v-else>
-    <template v-if="post">
-      <Post :item="post">
-        <template #append>
-          <CommentList :postId="post.id" :key="commentListKey" />
-        </template>
-      </Post>
-      <CommentAdd
-        :postId="post.id"
-        @add="handleCommentAdd"
-        class="post-add-comment z-10"
-      />
+  <div class="container">
+    <PostSkeleton v-if="isBusy" :loading="isBusy" />
+    <template v-else>
+      <template v-if="post">
+        <Post :item="post" class="mb-5">
+          <template #append>
+            <CommentList :postId="post.id" :key="commentListKey" />
+          </template>
+        </Post>
+        <CommentAdd
+          :postId="post.id"
+          @add="handleCommentAdd"
+          class="post-add-comment z-10"
+        />
+      </template>
+      <Box404 v-else />
     </template>
-    <Box404 v-else />
-  </template>
+  </div>
 </template>
 <style scoped lang="scss">
 .post-add-comment {

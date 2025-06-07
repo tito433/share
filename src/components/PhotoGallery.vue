@@ -78,7 +78,6 @@ const openPreview = () => {
       &.full-size {
         width: 100%;
         padding-bottom: 0;
-        max-height: 12rem;
         overflow: hidden;
       }
       img {
